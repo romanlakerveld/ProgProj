@@ -8,7 +8,7 @@ Being able to quickly find species interactions would certainly help in research
 The solution would be a simple app, in which you can search for species or interaction, and show the interaction as well as more information on the species associated with the interaction.
 
 ### Visual sketch
-![sketch](https://github.com/romanlakerveld/ProgProj/blob/master/Sketch.bmp)
+![sketch](https://github.com/romanlakerveld/ProgProj/blob/master/doc/Sketch.bmp)
 
 ### Main features
 - Getting interactions between 2 species
