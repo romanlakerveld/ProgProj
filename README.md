@@ -1,5 +1,4 @@
-# ProgProj
-## Project proposal
+# Programmingproject - Project proposal
 
 ### Problem statement
 Studying interactions between species is an important part of Biology. These interactions can range from eating each other, helping each other (for example by pollination) or infecting each other.
