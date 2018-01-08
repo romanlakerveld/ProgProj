@@ -10,7 +10,7 @@ The solution would be a simple app, in which you can search for species or inter
 
 Visual sketch
 
-###Main features
+### Main features
 - Getting interactions between 2 species
 - Getting interactions of 1 species with other species.
 - Getting interactions by location
@@ -18,11 +18,11 @@ Visual sketch
 
 The MVP would contain all of the above mentioned features, but it would be better to have all the information of the species in the result screen and not in an external browser window, although there is not yet an easy way to do that, that i'm aware of.
 
-###Data sources:
+### Data sources:
 - EOL API http://eol.org/api
 - Global Biotic Interactions API https://github.com/jhpoelen/eol-globi-data/wiki/API
 
-###External components:
+### External components:
 - Google maps
 
 I have not found any existing apps with the same purpose as this idea.
