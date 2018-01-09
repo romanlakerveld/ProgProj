@@ -26,7 +26,7 @@ The MVP would contain all of the above mentioned features, but it would be bette
 - Google maps
 
 ### Existing applications:
-I have not found any existing apps with the same purpose as this idea.
+I have not found any existing apps with the same purpose as this idea. Although the web application https://www.globalbioticinteractions.org/ uses the same API and does what i want to do in my app.
 
 ### Hardest part
 The hardest part will probably be setting up the communication with the API, since the returned JSON isnt always as straightforward as one would hope. Also implementing Google Maps into the app would seems like a hard obstacle, but not that hard.
