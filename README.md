@@ -19,8 +19,8 @@ The solution would be a simple app, in which you can search for species or inter
 The MVP would contain all of the above mentioned features, but it would be better to have all the information of the species in the result screen and not in an external browser window, although there is not yet an easy way to do that, that i'm aware of.
 
 ### Data sources:
-- EOL API http://eol.org/api
-- Global Biotic Interactions API https://github.com/jhpoelen/eol-globi-data/wiki/API
+- EOL API http://eol.org/api - This API allows users to look up species on their site EOL.org, which shows interesting details about the species
+- Global Biotic Interactions API https://github.com/jhpoelen/eol-globi-data/wiki/API - This API merges a collection of datasets containing interactions of species (for example check https://inaturalist.org/observations/3848742, which shows a sea otter eating a crab as well as the specific location). The API allows search for specific species as well as on a specific type of of interaction. The API also allows rectangular search, which returns only interactions within that rectangle.
 
 ### External components:
 - Google maps
