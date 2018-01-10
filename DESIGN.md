@@ -3,7 +3,17 @@
 ## Sketch of User Interface
 ![sketch image](https://github.com/romanlakerveld/ProgProj/blob/master/doc/DesignV3.bmp?raw=true)
 
-## Utility of classes
+## Utility of activities
+- OverviewActivity
+  - OnClick listeners for navigation
+- SpeciesSearchActivity
+  - Onclick navigation and add text in search bar to Bundle.
+- ActionSearchActivity
+  - Two EditTexts as well as a drop-down menu which is populated by calling the Global Biotic Interactions API for all possible interaction types. 
+  - On clicking search should navigate to ActionResultsActivity and provide search information in Bundle.
+-ResultsActivity
+  - Calls the Encyclopedia of Life to get all results for the search argument, which will be provided in the Bundle.
+  - Should also handle onClick listeners which should navigate to DetailsActivity
 
 ## Necessities
 
