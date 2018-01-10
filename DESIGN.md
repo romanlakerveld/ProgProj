@@ -3,6 +3,8 @@
 ## Sketch of User Interface
 ![sketch image](https://github.com/romanlakerveld/ProgProj/blob/master/doc/DesignV3.bmp?raw=true)
 
+## Utility of classes
+
 ## Necessities
 
 ### API's
