@@ -11,3 +11,6 @@
   - The '/interaction' endpoint has a few query parameters of which some are of interest to the app: 'targetTaxon', 'sourceTaxon', 'typeInteraction' and 'bbox'.
 - Encyclopedia of Life API (http://eol.org/api)
   - This API will be used to search for species without wanting to know about interactions. The '/search' endpoint takes a search argument and will look for pages on the Encyclopedia of Life that contain the argument.
+### Plugin's
+- Google Maps (https://www.google.nl/maps)
+  - Google Maps will be used to allows users to select an area of interest and then search it for interactions.
