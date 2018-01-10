@@ -14,6 +14,15 @@
 - ResultsActivity
   - Calls the Encyclopedia of Life to get all results for the search argument, which will be provided in the Bundle.
   - Should also handle onClick listeners which should navigate to DetailsActivity
+- DetailsActivity
+  - Calls the Encyclopedia of Life for information on the species as well as providing a link to the corresponding webpage.
+- AreaSearchActivity.java
+  - Uses Google Maps Plugin to create a navigatable map.
+  - On Click handler should navigate to ActionResultsActivity and provide coördinates in a Bundle.
+- ActionResultsActivity
+  - Calls the Global Biotic Interactions API with search arguments provided in Bundle, returns JSON.
+  - Get necessary data from JSON and put in lists.
+  - CustomListAdapter will handle populating a list view with the lists from the JSON.
 
 ## Necessities
 
