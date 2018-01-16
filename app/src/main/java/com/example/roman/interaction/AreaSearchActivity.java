@@ -49,7 +49,7 @@ public class AreaSearchActivity extends FragmentActivity implements OnMapReadyCa
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
-                Log.d("AREA", "onCameraMove:" + mMap.getProjection().getVisibleRegion().latLngBounds.southwes);
+                Log.d("AREA", "onCameraMove:" + mMap.getProjection().getVisibleRegion().latLngBounds);
             }
         });
     }
