@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">InterAction</string>
+    <string name="title_activity_area_search">Map</string>
+    <string name="textview">TextView</string>
 </resources>
