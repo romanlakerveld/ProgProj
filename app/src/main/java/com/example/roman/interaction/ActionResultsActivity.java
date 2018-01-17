@@ -3,6 +3,7 @@ package com.example.roman.interaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,17 +39,31 @@ public class ActionResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_results);
 
+
+
         final ListView listView = findViewById(R.id.actionList);
 
         Intent intent = getIntent();
-        final String interaction = intent.getStringExtra("interaction");
+        String interaction = intent.getStringExtra("interaction");
         String target = intent.getStringExtra("target");
         String source = intent.getStringExtra("source");
+        String coords = intent.getStringExtra("coords");
+
+        if (interaction == null) {
+            interaction = "interactsWith";
+        }
 
         final ArrayList<Interaction> interactions = new ArrayList<>();
 
-        String url = "https://api.globalbioticinteractions.org/interaction?sourceTaxon=" + source + "&targetTaxon=" + target + "&interactionType=" + interaction;
-
+        String url = "https://api.globalbioticinteractions.org/interaction?bbox=" + coords;
+//        Uri.Builder builder = new Uri.Builder();
+//        builder.scheme("https")
+//                .authority("api.globalbioticinteractions.org")
+//                .appendPath("interaction")
+//                .appendQueryParameter("interactionType", interaction)
+//                .appendQueryParameter("targetTaxon", target)
+//                .appendQueryParameter("sourceTaxon", source);
+//        String url = builder.build().toString();
         url = url.replaceAll(" ", "%20");
         Log.d("URL", "onCreate: " + url);
 

@@ -1,8 +1,12 @@
 package com.example.roman.interaction;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,6 +29,41 @@ public class AreaSearchActivity extends FragmentActivity implements OnMapReadyCa
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        Button button = findViewById(R.id.search);
+        button.setOnClickListener(new OnGoClickListener());
+
+    }
+
+
+    class OnGoClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            // Create new intent
+            Intent intent = new Intent(AreaSearchActivity.this, ActionResultsActivity.class);
+
+            //Get bounds of current screen. Northeastern corner and southwestern corner.
+            LatLngBounds lngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+            LatLng northEast = lngBounds.northeast;
+            LatLng southWest = lngBounds.southwest;
+
+            // Get coordinate strings from corners
+            String north = String.valueOf(northEast.latitude);
+            String east = String.valueOf(northEast.longitude);
+            String south = String.valueOf(southWest.latitude);
+            String west = String.valueOf(southWest.longitude);
+
+            String[] array = {west, south, east, north};
+
+            // Concatenate string to form easy extra in format: west, south, east, north
+            String coords = west + "," + south + "," + east + "," + north;
+            Log.d("COORDS", "onClick: " + coords);
+
+            intent.putExtra("coords", coords);
+
+
+            startActivity(intent);
+        }
     }
 
 
@@ -41,11 +80,6 @@ public class AreaSearchActivity extends FragmentActivity implements OnMapReadyCa
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
@@ -53,4 +87,6 @@ public class AreaSearchActivity extends FragmentActivity implements OnMapReadyCa
             }
         });
     }
+
+
 }
