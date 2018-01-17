@@ -10,5 +10,11 @@
 /**
  * Does X and Y and provides an abstraction for Z.
  */
+```  
+or
 ```
-8.
+// Add X and Y
+```
+8. Write consistent code above all.
+9. Use camelCase
+10. Catch exceptions
