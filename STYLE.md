@@ -6,9 +6,9 @@
 5. Variables start with a lowercaps.
 6. Keep variable scope to a minimum. So put it as close to its use as possible.
 7. Comments should be like this:
-'''
+```
 /**
  * Does X and Y and provides an abstraction for Z.
  */
-'''
+```
 8.
