@@ -83,7 +83,6 @@ public class ActionSearchActivity extends AppCompatActivity {
 
                             // Set adapter for spinner
                             spinner.setAdapter(adapter);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
