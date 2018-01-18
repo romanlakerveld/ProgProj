@@ -44,14 +44,14 @@ public class ActionResultsActivity extends AppCompatActivity {
 
         // Get intent and extract extras
         Intent intent = getIntent();
-        String interaction = intent.getStringExtra("interaction");
+        String interactionValue = intent.getStringExtra("interaction");
         String target = intent.getStringExtra("target");
         String source = intent.getStringExtra("source");
         String coords = intent.getStringExtra("coords");
 
         // Check if interaction isn't null, else set it to a basic value
-        if (interaction == null) {
-            interaction = "interactsWith";
+        if (interactionValue == null) {
+            interactionValue = "interactsWith";
         }
 
         // Instantiate ArrayList for interactions
@@ -60,45 +60,57 @@ public class ActionResultsActivity extends AppCompatActivity {
         // Build the url for API-request
         String url = "https://api.globalbioticinteractions.org/interaction?";
 
+        // Check if extras were null, if so dont add them to the API request.
         if (target != null){
             if (!target.equals("")) {
                 url += "targetTaxon=" + target + "&";
             }
         }
-
         if (source != null){
             if (!source.equals("")) {
                 url += "sourceTaxon=" + source + "&";
             }
         }
-
         if (coords != null) {
             url += "bbox=" + coords + "&";
         }
 
-        url += "interactionType=" + interaction;
+        // interactionType is never null so can simply be added
+        url += "interactionType=" + interactionValue;
 
+        // replace spaces with "%20"
         url = url.replaceAll(" ", "%20");
         Log.d("URL", "onCreate: " + url);
 
+        // New requestqueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-
+        // Create new requestQueue for getting the interactions.
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         JSONArray array = null;
                         try {
+                            // extract array with interactions from the response
                             array = new JSONObject(response).getJSONArray("data");
+
+                            // for every interaction in array
                             for (int i = 0; i < array.length() && i < 30; i++) {
+                                // get a single interaction
                                 JSONArray jsonArray = array.getJSONArray(i);
-                                Interaction interaction1 = new Interaction();
-                                interaction1.setSource(jsonArray.getString(1));
-                                interaction1.setTarget(jsonArray.getString(7));
-                                interaction1.setinteraction(jsonArray.getString(5));
-                                interactions.add(interaction1);
+
+                                // create new interaction class and set values
+                                Interaction interaction = new Interaction();
+                                interaction.setSource(jsonArray.getString(1));
+                                interaction.setTarget(jsonArray.getString(7));
+                                interaction.setInteraction(jsonArray.getString(5));
+
+                                // add interaction to the list of interactions
+                                interactions.add(interaction);
                             }
+
+                            // create new adapter with the list and connect to the listview
                             InteractionAdapter adapter = new InteractionAdapter(ActionResultsActivity.this, android.R.layout.simple_list_item_1, interactions);
                             listView.setAdapter(adapter);
                         } catch (JSONException e) {
@@ -138,11 +150,11 @@ public class ActionResultsActivity extends AppCompatActivity {
             this.target = target;
         }
 
-        public String getinteraction() {
+        public String getInteraction() {
             return interaction;
         }
 
-        public void setinteraction(String interaction) {
+        public void setInteraction(String interaction) {
             this.interaction = interaction;
         }
 
@@ -168,6 +180,7 @@ public class ActionResultsActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             ViewHolder holder;
 
+            // TODO: comments
             if (convertView == null) {
                 LayoutInflater inflater = getLayoutInflater();
                 convertView = inflater.inflate(R.layout.interaction_item, null);
@@ -185,7 +198,7 @@ public class ActionResultsActivity extends AppCompatActivity {
             }
             holder.mysource.setText(data.get(position).getSource());
             holder.mytarget.setText(data.get(position).getTarget());
-            holder.myinteraction.setText(data.get(position).getinteraction());
+            holder.myinteraction.setText(data.get(position).getInteraction());
             return convertView;
         }
     }

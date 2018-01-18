@@ -49,14 +49,16 @@ public class ActionSearchActivity extends AppCompatActivity {
         Button button = findViewById(R.id.ActionSearch);
         button.setOnClickListener(new OnSearchClickListener());
 
+        // instantiate list of possible interactions
         final ArrayList<String> interactionList = new ArrayList<>();
-
 
         // getting suppoorted interaction types from API
         String url = "https://api.globalbioticinteractions.org/interactionTypes";
 
+        // Open a new request queue
         RequestQueue requestQueue = Volley.newRequestQueue(ActionSearchActivity.this);
 
+        // Create a stringRequest for getting possible interactions. TODO: maybe put this in seperate function.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -64,6 +66,7 @@ public class ActionSearchActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             for (int i = 0; i < jsonObject.length(); i++) {
+                                // put every interaction in list and convert camelCase to readable text
                                 interactionList.add(jsonObject.names().getString(i).replaceAll(
                                         String.format("%s|%s|%s",
                                                 "(?<=[A-Z])(?=[A-Z][a-z])",
@@ -73,9 +76,12 @@ public class ActionSearchActivity extends AppCompatActivity {
                                         " "
                                 ));
                             }
+                            // Instantiate new adapter
                             ArrayAdapter<String> adapter =
                                     new ArrayAdapter<String>(ActionSearchActivity.this, android.R.layout.simple_list_item_1, interactionList);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            // Set adapter for spinner
                             spinner.setAdapter(adapter);
 
                         } catch (JSONException e) {
@@ -96,9 +102,12 @@ public class ActionSearchActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
+            // extract strings from sources
             String interaction = spinner.getSelectedItem().toString().replaceAll(" ", "");
             String targetText = target.getText().toString();
             String sourceText = source.getText().toString();
+
+            // Create new intent with extras and start the new Activity
             Intent intent = new Intent(ActionSearchActivity.this, ActionResultsActivity.class);
             intent  .putExtra("interaction", interaction)
                     .putExtra("target", targetText)
