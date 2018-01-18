@@ -39,31 +39,45 @@ public class ActionResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_results);
 
-
-
+        // Instantiate listView
         final ListView listView = findViewById(R.id.actionList);
 
+        // Get intent and extract extras
         Intent intent = getIntent();
         String interaction = intent.getStringExtra("interaction");
         String target = intent.getStringExtra("target");
         String source = intent.getStringExtra("source");
         String coords = intent.getStringExtra("coords");
 
+        // Check if interaction isn't null, else set it to a basic value
         if (interaction == null) {
             interaction = "interactsWith";
         }
 
+        // Instantiate ArrayList for interactions
         final ArrayList<Interaction> interactions = new ArrayList<>();
 
-        String url = "https://api.globalbioticinteractions.org/interaction?bbox=" + coords;
-//        Uri.Builder builder = new Uri.Builder();
-//        builder.scheme("https")
-//                .authority("api.globalbioticinteractions.org")
-//                .appendPath("interaction")
-//                .appendQueryParameter("interactionType", interaction)
-//                .appendQueryParameter("targetTaxon", target)
-//                .appendQueryParameter("sourceTaxon", source);
-//        String url = builder.build().toString();
+        // Build the url for API-request
+        String url = "https://api.globalbioticinteractions.org/interaction?";
+
+        if (target != null){
+            if (!target.equals("")) {
+                url += "targetTaxon=" + target + "&";
+            }
+        }
+
+        if (source != null){
+            if (!source.equals("")) {
+                url += "sourceTaxon=" + source + "&";
+            }
+        }
+
+        if (coords != null) {
+            url += "bbox=" + coords + "&";
+        }
+
+        url += "interactionType=" + interaction;
+
         url = url.replaceAll(" ", "%20");
         Log.d("URL", "onCreate: " + url);
 
@@ -77,7 +91,7 @@ public class ActionResultsActivity extends AppCompatActivity {
                         JSONArray array = null;
                         try {
                             array = new JSONObject(response).getJSONArray("data");
-                            for (int i = 0; i < array.length(); i++) {
+                            for (int i = 0; i < array.length() && i < 30; i++) {
                                 JSONArray jsonArray = array.getJSONArray(i);
                                 Interaction interaction1 = new Interaction();
                                 interaction1.setSource(jsonArray.getString(1));

@@ -42,21 +42,8 @@ public class AreaSearchActivity extends FragmentActivity implements OnMapReadyCa
             // Create new intent
             Intent intent = new Intent(AreaSearchActivity.this, ActionResultsActivity.class);
 
-            //Get bounds of current screen. Northeastern corner and southwestern corner.
-            LatLngBounds lngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-            LatLng northEast = lngBounds.northeast;
-            LatLng southWest = lngBounds.southwest;
+            String coords = MapUtils.getMapCoords(mMap);
 
-            // Get coordinate strings from corners
-            String north = String.valueOf(northEast.latitude);
-            String east = String.valueOf(northEast.longitude);
-            String south = String.valueOf(southWest.latitude);
-            String west = String.valueOf(southWest.longitude);
-
-            String[] array = {west, south, east, north};
-
-            // Concatenate string to form easy extra in format: west, south, east, north
-            String coords = west + "," + south + "," + east + "," + north;
             Log.d("COORDS", "onClick: " + coords);
 
             intent.putExtra("coords", coords);
@@ -79,13 +66,6 @@ public class AreaSearchActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
-            @Override
-            public void onCameraMove() {
-                Log.d("AREA", "onCameraMove:" + mMap.getProjection().getVisibleRegion().latLngBounds);
-            }
-        });
     }
 
 
