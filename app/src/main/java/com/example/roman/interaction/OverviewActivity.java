@@ -12,6 +12,7 @@ public class OverviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
+
         // Initialize buttons
         Button Species      = (Button) findViewById(R.id.Species);
         Button Interaction  = (Button) findViewById(R.id.Interaction);
@@ -29,6 +30,8 @@ public class OverviewActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent;
+
+            // Check which button has been pressed and navigate to the corresponding activity
             switch (view.getId()) {
                 case R.id.Species:
                     intent = new Intent(OverviewActivity.this, SpeciesSearchActivity.class);

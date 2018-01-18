@@ -4,13 +4,22 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import java.math.BigDecimal;
+
+import static java.lang.Math.round;
+
 /**
  * Created by roman on 18/01/2018.
  */
 
 public class MapUtils {
 
-    public static String getMapCoords(GoogleMap map) {
+    /**
+     * Takes a GoogleMap object and extracts the coordinates of the current projection
+     * @param   map GoogleMaps object to be examined
+     * @return      String of west south east and north coordinates
+     */
+    static String getMapCoords(GoogleMap map) {
 
         //Get bounds of current screen. Northeastern corner and southwestern corner.
         LatLngBounds lngBounds = map.getProjection().getVisibleRegion().latLngBounds;
@@ -18,13 +27,28 @@ public class MapUtils {
         LatLng southWest = lngBounds.southwest;
 
         // Get coordinate strings from corners
-        String north = String.valueOf(northEast.latitude);
-        String east = String.valueOf(northEast.longitude);
-        String south = String.valueOf(southWest.latitude);
-        String west = String.valueOf(southWest.longitude);
+        String north = String.valueOf(round(northEast.latitude, 2, BigDecimal.ROUND_HALF_UP));
+        String east = String.valueOf(round(northEast.longitude, 2, BigDecimal.ROUND_HALF_UP));
+        String south = String.valueOf(round(southWest.latitude, 2, BigDecimal.ROUND_HALF_UP));
+        String west = String.valueOf(round(southWest.longitude, 2, BigDecimal.ROUND_HALF_UP));
 
         // Concatenate string to form easy extra in format: west, south, east, north
         return west + "," + south + "," + east + "," + north;
+    }
+
+    /**
+     * Rounds a double to a specified precision
+     *
+     * @param unrounded     Double to be rounded
+     * @param precision     Precision desired
+     * @param roundingMode  How the double should be rounded
+     * @return              Return the rounded double
+     */
+    public static double round(double unrounded, int precision, int roundingMode)
+    {
+        BigDecimal bd = new BigDecimal(unrounded);
+        BigDecimal rounded = bd.setScale(precision, roundingMode);
+        return rounded.doubleValue();
     }
 
 }

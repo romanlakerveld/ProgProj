@@ -29,6 +29,7 @@ public class AreaSearchActivity extends FragmentActivity implements OnMapReadyCa
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        // Find the button and set an onClickListener
         Button button = findViewById(R.id.search);
         button.setOnClickListener(new OnGoClickListener());
 
@@ -42,12 +43,13 @@ public class AreaSearchActivity extends FragmentActivity implements OnMapReadyCa
             // Create new intent
             Intent intent = new Intent(AreaSearchActivity.this, ActionResultsActivity.class);
 
+            // Use getMapCoords function to get the coordinates of the map
             String coords = MapUtils.getMapCoords(mMap);
 
             Log.d("COORDS", "onClick: " + coords);
 
+            // put coords in the intent
             intent.putExtra("coords", coords);
-
 
             startActivity(intent);
         }
