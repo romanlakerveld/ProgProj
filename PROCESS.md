@@ -7,4 +7,4 @@ I found some databases which could help with allowing Latin to Common name conve
 I recieved some help from Martijn with transforming the database into usable data and tomorrow i will attempt to implement a SQLiteHelper.
 
 # Week 2 - Day 4
-Today i will try to make sure the basic functionality the app provided works well, which will mainly be the handling of extras. Also if i have time i would like to start on the implementation of the databases.
+Today i will try to make sure the basic functionality the app provides works well, which will mainly be the handling of extras. Also if i have time i would like to start on the implementation of the databases.
