@@ -13,9 +13,12 @@ Today i will try to make sure the basic functionality the app provides works wel
 Basic functionality is complete. I also added some comments to make the code more readable.
 Further TODO items are:
 - Add another activity to search for area as well as specific species and interaction.
+    - Wont be a lot harder (just merging existing activities.)
 - Create SQLite support for Latin and Common names
     - Add Common names to interaction results where possible
+    - Getting the Data in SQLite will probably be hard.
 - Create SQLite support for external ids.
 - Make layout prettier
 - Make a display on top of the results to show what the search queries were.
+    - Also not a very hard task
 
