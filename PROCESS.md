@@ -22,3 +22,6 @@ Further TODO items are:
 - Make a display on top of the results to show what the search queries were.
     - Also not a very hard task
 
+# Week 3 - Day 1
+Over the weekend i added SQLite support for getting the common and latin names. Today i have transformed a database with python, to be used as an autocomplete feature.
+
