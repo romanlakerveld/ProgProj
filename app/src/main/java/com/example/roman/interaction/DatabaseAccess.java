@@ -9,6 +9,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,10 +64,13 @@ public class DatabaseAccess {
      */
     public String getCommon(String latin) {
         Cursor cursor = database.rawQuery("SELECT field2 FROM englishpairs WHERE field1 = '"+latin+"'", null);
+        if (cursor.getCount() == 0) {
+            return "";
+        }
         cursor.moveToFirst();
         String latinName = cursor.getString(0);
         cursor.close();
-        return latinName;
+        return "(" + StringUtils.strip(latinName, "@en") + ")";
     }
 
 }

@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +48,7 @@ public class ActionResultsActivity extends AppCompatActivity {
         String interactionValue = intent.getStringExtra("interaction");
         String target = intent.getStringExtra("target");
         String source = intent.getStringExtra("source");
-        String coords = intent.getStringExtra("coords");
+        String coordinates = intent.getStringExtra("coords");
 
         // Check if interaction isn't null, else set it to a basic value
         if (interactionValue == null) {
@@ -71,8 +72,8 @@ public class ActionResultsActivity extends AppCompatActivity {
                 url += "sourceTaxon=" + source + "&";
             }
         }
-        if (coords != null) {
-            url += "bbox=" + coords + "&";
+        if (coordinates != null) {
+            url += "bbox=" + coordinates + "&";
         }
 
         // interactionType is never null so can simply be added
@@ -139,7 +140,12 @@ public class ActionResultsActivity extends AppCompatActivity {
         }
 
         public void setSource(String source) {
-            this.source = source;
+            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ActionResultsActivity.this);
+            databaseAccess.open();
+            String common = databaseAccess.getCommon(source);
+            databaseAccess.close();
+
+            this.source = source + common;
         }
 
         public String getTarget() {
@@ -147,7 +153,12 @@ public class ActionResultsActivity extends AppCompatActivity {
         }
 
         public void setTarget(String target) {
-            this.target = target;
+            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ActionResultsActivity.this);
+            databaseAccess.open();
+            String common = databaseAccess.getCommon(target);
+            databaseAccess.close();
+
+            this.target = target + common;
         }
 
         public String getInteraction() {

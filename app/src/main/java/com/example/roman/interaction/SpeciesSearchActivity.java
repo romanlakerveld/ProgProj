@@ -30,12 +30,6 @@ public class SpeciesSearchActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            Log.d("CLICKED", "onClick: ");
-            databaseAccess = DatabaseAccess.getInstance(SpeciesSearchActivity.this);
-            databaseAccess.open();
-            textview.setText(databaseAccess.getCommon(editText.getText().toString()));
-            databaseAccess.close();
-            Log.d("CLICKED", "onClick: ");
 
         }
     }
