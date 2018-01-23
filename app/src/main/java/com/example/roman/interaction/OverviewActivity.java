@@ -17,11 +17,13 @@ public class OverviewActivity extends AppCompatActivity {
         Button Species      = (Button) findViewById(R.id.Species);
         Button Interaction  = (Button) findViewById(R.id.Interaction);
         Button Area         = (Button) findViewById(R.id.Map);
+        Button AreaAction   = (Button) findViewById(R.id.ActionArea);
 
         // Initialize click navigation handling
         Species.setOnClickListener(new OnNavigationClickListener());
         Interaction.setOnClickListener(new OnNavigationClickListener());
         Area.setOnClickListener(new OnNavigationClickListener());
+        AreaAction.setOnClickListener(new OnNavigationClickListener());
 
     }
 
@@ -45,6 +47,9 @@ public class OverviewActivity extends AppCompatActivity {
                     intent = new Intent(OverviewActivity.this, AreaSearchActivity.class);
                     startActivity(intent);
                     break;
+                case R.id.ActionArea:
+                    intent = new Intent(OverviewActivity.this, ActionAreaActivity.class);
+                    startActivity(intent);
             }
 
         }

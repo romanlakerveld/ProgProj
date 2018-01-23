@@ -97,7 +97,7 @@ public class ActionResultsActivity extends AppCompatActivity {
                             array = new JSONObject(response).getJSONArray("data");
 
                             // for every interaction in array
-                            for (int i = 0; i < array.length() && i < 30; i++) {
+                            for (int i = 0; i < array.length(); i++) {
                                 // get a single interaction
                                 JSONArray jsonArray = array.getJSONArray(i);
 

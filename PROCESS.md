@@ -25,3 +25,6 @@ Further TODO items are:
 # Week 3 - Day 1
 Over the weekend i added SQLite support for getting the common and latin names. Today i have transformed a database with python, to be used as an autocomplete feature.
 
+# Week 3 - Day 2
+I have thought about how to implement an autocomplete feature that also contains the common name where possible. So ive decided to put the name where possible in parentheses behind the latin name.
+Also, i have discovered by re-downloading the database that it has shrunk in size: from 800MB to just 80MB, but this is probably just done to filter out double values. But just to be sure i will use this new database for latin-to-common conversion and autocompleting search queries.
