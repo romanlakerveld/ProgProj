@@ -19,7 +19,7 @@
             android:textAllCaps="false"
             android:textSize="20sp" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/latin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

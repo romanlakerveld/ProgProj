@@ -52,6 +52,11 @@ public class ActionSearchActivity extends AppCompatActivity {
         // instantiate list of possible interactions
         final ArrayList<String> interactionList = new ArrayList<>();
 
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ActionSearchActivity.this);
+        databaseAccess.open();
+        String[] taxa = databaseAccess.getAllTaxa();
+        databaseAccess.close();
+
         // getting suppoorted interaction types from API
         String url = "https://api.globalbioticinteractions.org/interactionTypes";
 

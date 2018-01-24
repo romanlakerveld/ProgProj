@@ -11,38 +11,56 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView3"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Interaction Type Search"
-            android:textSize="20sp" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/target"
-            android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Do "
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="organism"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Target Species"
-            android:inputType="textPersonName" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/source"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Source Species"
-            android:inputType="textPersonName" />
+            <Spinner
+                android:id="@+id/interaction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <EditText
+                android:id="@+id/target"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="organism"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="\?"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <Button
-            android:id="@+id/ActionSearch"
+            android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search for interaction" />
+            android:text="search this area" />
     </LinearLayout>
 </RelativeLayout>

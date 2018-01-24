@@ -63,7 +63,7 @@ public class DatabaseAccess {
      * @return a List of quotes
      */
     public String getCommon(String latin) {
-        Cursor cursor = database.rawQuery("SELECT field2 FROM englishpairs WHERE field1 = '"+latin+"'", null);
+        Cursor cursor = database.rawQuery("SELECT common FROM latintocommon WHERE latin = '"+latin+"'", null);
         if (cursor.getCount() == 0) {
             return "";
         }
@@ -71,6 +71,26 @@ public class DatabaseAccess {
         String latinName = cursor.getString(0);
         cursor.close();
         return "(" + StringUtils.strip(latinName, "@en") + ")";
+    }
+
+    public String[] getAllTaxa() {
+        Cursor cursor = database.rawQuery("SELECT * FROM autocomplete", null);
+
+        if (cursor.getCount() > 0) {
+            String[] taxa = new String[cursor.getCount()];
+            int i = 0;
+
+            while (cursor.moveToNext()) {
+                taxa[i] = cursor.getString(cursor.getColumnIndex("taxa"));
+                i++;
+            }
+            cursor.close();
+            return taxa;
+        }
+        else {
+            cursor.close();
+            return new String[] {};
+        }
     }
 
 }
