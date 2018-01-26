@@ -1,5 +1,6 @@
 package com.example.roman.interaction;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +41,9 @@ public class SpeciesSearchActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-
+            Intent intent = new Intent(SpeciesSearchActivity.this, ResultsActivity.class);
+            intent.putExtra("taxa", editText.getText().toString());
+            startActivity(intent);
         }
     }
 }

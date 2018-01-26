@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -32,8 +33,8 @@ import java.util.List;
 
 public class ActionSearchActivity extends AppCompatActivity {
     public Spinner spinner;
-    public TextView target;
-    public TextView source;
+    public AutoCompleteTextView target;
+    public AutoCompleteTextView source;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +44,10 @@ public class ActionSearchActivity extends AppCompatActivity {
         // Initialize views
         target = findViewById(R.id.target);
         source = findViewById(R.id.source);
-        spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.interaction);
 
         // initialize button and set listener
-        Button button = findViewById(R.id.ActionSearch);
+        Button button = findViewById(R.id.search);
         button.setOnClickListener(new OnSearchClickListener());
 
         // instantiate list of possible interactions
@@ -57,13 +58,18 @@ public class ActionSearchActivity extends AppCompatActivity {
         String[] taxa = databaseAccess.getAllTaxa();
         databaseAccess.close();
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, taxa);
+
+        source.setAdapter(adapter);
+        target.setAdapter(adapter);
+
         // getting suppoorted interaction types from API
         String url = "https://api.globalbioticinteractions.org/interactionTypes";
 
         // Open a new request queue
         RequestQueue requestQueue = Volley.newRequestQueue(ActionSearchActivity.this);
 
-        // Create a stringRequest for getting possible interactions. TODO: maybe put this in seperate function.
+        // Create a stringRequest for getting possible interactions. TODO: maybe put this in separate function.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

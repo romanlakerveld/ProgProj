@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActionResultsActivity extends AppCompatActivity {
+    ArrayList<Interaction> interactions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +48,8 @@ public class ActionResultsActivity extends AppCompatActivity {
         // Get intent and extract extras
         Intent intent = getIntent();
         String interactionValue = intent.getStringExtra("interaction");
-        String target = intent.getStringExtra("target");
-        String source = intent.getStringExtra("source");
+        String target = intent.getStringExtra("target").replaceAll("\\(.*?\\)","").trim();
+        String source = intent.getStringExtra("source").replaceAll("\\(.*?\\)","").trim();
         String coordinates = intent.getStringExtra("coords");
 
         // Check if interaction isn't null, else set it to a basic value
@@ -56,7 +58,7 @@ public class ActionResultsActivity extends AppCompatActivity {
         }
 
         // Instantiate ArrayList for interactions
-        final ArrayList<Interaction> interactions = new ArrayList<>();
+        interactions = new ArrayList<>();
 
         // Build the url for API-request
         String url = "https://api.globalbioticinteractions.org/interaction?";
@@ -97,7 +99,7 @@ public class ActionResultsActivity extends AppCompatActivity {
                             array = new JSONObject(response).getJSONArray("data");
 
                             // for every interaction in array
-                            for (int i = 0; i < array.length(); i++) {
+                            for (int i = 0; i < array.length() && i < 30; i++) {
                                 // get a single interaction
                                 JSONArray jsonArray = array.getJSONArray(i);
 
@@ -114,6 +116,8 @@ public class ActionResultsActivity extends AppCompatActivity {
                             // create new adapter with the list and connect to the listview
                             InteractionAdapter adapter = new InteractionAdapter(ActionResultsActivity.this, android.R.layout.simple_list_item_1, interactions);
                             listView.setAdapter(adapter);
+                            listView.setOnItemClickListener(new OnItemClicked());
+                            listView.setOnItemLongClickListener(new OnItemLongClicked());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -179,7 +183,7 @@ public class ActionResultsActivity extends AppCompatActivity {
 
     public class InteractionAdapter extends ArrayAdapter<Interaction> {
         private int layoutResourceId;
-        private List<Interaction> data;
+        public List<Interaction> data;
 
         public InteractionAdapter(Context context, int resource, List<Interaction> objects) {
             super(context, resource, objects);
@@ -187,9 +191,11 @@ public class ActionResultsActivity extends AppCompatActivity {
             data = objects;
         }
 
+
+
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            ViewHolder holder;
+        public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
+            final ViewHolder holder;
 
             // TODO: comments
             if (convertView == null) {
@@ -211,6 +217,35 @@ public class ActionResultsActivity extends AppCompatActivity {
             holder.mytarget.setText(data.get(position).getTarget());
             holder.myinteraction.setText(data.get(position).getInteraction());
             return convertView;
+        }
+
+
+
+
+    }
+
+    class OnItemClicked implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            String source = interactions.get(i).getSource();
+
+            Intent intent = new Intent(ActionResultsActivity.this, ResultsActivity.class);
+            intent.putExtra("taxa", source);
+            startActivity(intent);
+        }
+    }
+
+    class OnItemLongClicked implements AdapterView.OnItemLongClickListener {
+
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            String target = interactions.get(i).getTarget();
+
+            Intent intent = new Intent(ActionResultsActivity.this, ResultsActivity.class);
+            intent.putExtra("taxa", target);
+            startActivity(intent);
+            return true;
         }
     }
 

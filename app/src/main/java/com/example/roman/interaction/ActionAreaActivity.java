@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -31,8 +32,8 @@ import java.util.ArrayList;
 public class ActionAreaActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private EditText source;
-    private EditText target;
+    private AutoCompleteTextView source;
+    private AutoCompleteTextView target;
     private Spinner interaction;
 
     @Override
@@ -48,6 +49,16 @@ public class ActionAreaActivity extends FragmentActivity implements OnMapReadyCa
         source = findViewById(R.id.source);
         target = findViewById(R.id.target);
         interaction = findViewById(R.id.interaction);
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ActionAreaActivity.this);
+        databaseAccess.open();
+        String[] taxa = databaseAccess.getAllTaxa();
+        databaseAccess.close();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, taxa);
+
+        source.setAdapter(adapter);
+        target.setAdapter(adapter);
 
         button.setOnClickListener(new OnSearchClickListener());
 

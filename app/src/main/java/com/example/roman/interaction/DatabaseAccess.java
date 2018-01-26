@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -90,6 +91,29 @@ public class DatabaseAccess {
         else {
             cursor.close();
             return new String[] {};
+        }
+    }
+
+    public String[] getAllUrls(String latin) {
+
+        String latinTrimmed = latin.replaceAll("\\(.*?\\)","").trim();
+        Cursor cursor = database.rawQuery("SELECT * FROM urlMap WHERE taxa = '"+latinTrimmed+"'", null);
+        Log.d("GetUrls", "getAllUrls: " + latinTrimmed);
+
+        if (cursor.getCount() >0) {
+            String[] urls = new String[cursor.getCount()];
+            int i = 0;
+
+            while (cursor.moveToNext()) {
+                urls[i] = cursor.getString(cursor.getColumnIndex("url"));
+                i++;
+            }
+            cursor.close();
+            return urls;
+        }
+        else {
+            cursor.close();
+            return new String [] {};
         }
     }
 
