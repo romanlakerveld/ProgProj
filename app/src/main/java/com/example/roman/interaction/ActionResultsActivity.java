@@ -3,17 +3,20 @@ package com.example.roman.interaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,6 +40,8 @@ import java.util.List;
 
 public class ActionResultsActivity extends AppCompatActivity {
     ArrayList<Interaction> interactions;
+    ListView listView;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +49,15 @@ public class ActionResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_action_results);
 
         // Instantiate listView
-        final ListView listView = findViewById(R.id.actionList);
-        final TextView textView = findViewById(R.id.resultText);
+        listView = findViewById(R.id.actionList);
+        textView = findViewById(R.id.resultText);
 
+        setTitle("Interaction results");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         // Get intent and extract extras
         Intent intent = getIntent();
         String interactionValue = intent.getStringExtra("interaction");
@@ -58,6 +69,11 @@ public class ActionResultsActivity extends AppCompatActivity {
         if (interactionValue == null) {
             interactionValue = "interactsWith";
         }
+
+//        if ()
+//        Resources resources = getResources();
+//        String string = resources.getString(R.string.results_info, source, interactionValue, target);
+//        textView.setText(string);
 
         // Instantiate ArrayList for interactions
         interactions = new ArrayList<>();
@@ -104,11 +120,6 @@ public class ActionResultsActivity extends AppCompatActivity {
                             if (array.length() == 0) {
                                 textView.setText("Unfortunately, no results for this search were found.");
                             }
-                            else {
-                                Resources resources = getResources();
-                                String string = resources.getString(R.string.results_info, source, finalInteractionValue, target);
-                                textView.setText(string);
-                            }
 
                             // for every interaction in array
                             for (int i = 0; i < array.length() && i < 30; i++) {
@@ -128,8 +139,6 @@ public class ActionResultsActivity extends AppCompatActivity {
                             // create new adapter with the list and connect to the listview
                             InteractionAdapter adapter = new InteractionAdapter(ActionResultsActivity.this, android.R.layout.simple_list_item_1, interactions);
                             listView.setAdapter(adapter);
-                            listView.setOnItemClickListener(new OnItemClicked());
-                            listView.setOnItemLongClickListener(new OnItemLongClicked());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -137,10 +146,10 @@ public class ActionResultsActivity extends AppCompatActivity {
 
                     }
                 }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-                    }
+            }
         });
 
         requestQueue.add(stringRequest);
@@ -161,7 +170,7 @@ public class ActionResultsActivity extends AppCompatActivity {
             String common = databaseAccess.getCommon(source);
             databaseAccess.close();
 
-            this.source = source + common;
+            this.source = "<i>" + source + "</i>" + common;
         }
 
         public String getTarget() {
@@ -174,7 +183,7 @@ public class ActionResultsActivity extends AppCompatActivity {
             String common = databaseAccess.getCommon(target);
             databaseAccess.close();
 
-            this.target = target + common;
+            this.target = "<i>" + target + "</i>" + common;
         }
 
         public String getInteraction() {
@@ -188,9 +197,9 @@ public class ActionResultsActivity extends AppCompatActivity {
     }
 
     class ViewHolder {
-        TextView mysource;
+        Button mysource;
         TextView myinteraction;
-        TextView mytarget;
+        Button mytarget;
     }
 
     public class InteractionAdapter extends ArrayAdapter<Interaction> {
@@ -216,8 +225,8 @@ public class ActionResultsActivity extends AppCompatActivity {
 
                 holder = new ViewHolder();
 
-                holder.mysource = (TextView) convertView.findViewById(R.id.source);
-                holder.mytarget = (TextView) convertView.findViewById(R.id.target);
+                holder.mysource = (Button) convertView.findViewById(R.id.source);
+                holder.mytarget = (Button) convertView.findViewById(R.id.target);
                 holder.myinteraction = (TextView) convertView.findViewById(R.id.interaction);
 
                 convertView.setTag(holder);
@@ -225,9 +234,16 @@ public class ActionResultsActivity extends AppCompatActivity {
             else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.mysource.setText(data.get(position).getSource());
-            holder.mytarget.setText(data.get(position).getTarget());
+            holder.mysource.setText(Html.fromHtml(data.get(position).getSource()));
+            holder.mysource.setOnClickListener(new OnSpeciesClicked());
+            holder.mytarget.setText(Html.fromHtml(data.get(position).getTarget()));
+            holder.mytarget.setOnClickListener(new OnSpeciesClicked());
             holder.myinteraction.setText(data.get(position).getInteraction());
+            if (position % 2 == 1) {
+                convertView.setBackgroundColor(getResources().getColor(R.color.listview_colors));
+            } else {
+                convertView.setBackgroundColor(getResources().getColor(R.color.listview_colors_even));
+            }
             return convertView;
         }
 
@@ -236,30 +252,19 @@ public class ActionResultsActivity extends AppCompatActivity {
 
     }
 
-    class OnItemClicked implements AdapterView.OnItemClickListener {
+    class OnSpeciesClicked implements AdapterView.OnClickListener {
 
         @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            String source = interactions.get(i).getSource();
+        public void onClick(View view) {
+            Button b = (Button) view;
+            String species = b.getText().toString();
 
             Intent intent = new Intent(ActionResultsActivity.this, ResultsActivity.class);
-            intent.putExtra("taxa", source);
+            intent.putExtra("taxa", species);
             startActivity(intent);
         }
     }
 
-    class OnItemLongClicked implements AdapterView.OnItemLongClickListener {
-
-        @Override
-        public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-            String target = interactions.get(i).getTarget();
-
-            Intent intent = new Intent(ActionResultsActivity.this, ResultsActivity.class);
-            intent.putExtra("taxa", target);
-            startActivity(intent);
-            return true;
-        }
-    }
 
 
 }

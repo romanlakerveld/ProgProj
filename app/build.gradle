@@ -19,6 +19,7 @@ android {
 }
 
 dependencies {
+    compile 'com.android.support:design:+'
     compile 'com.wefika:horizontal-picker:1.1.1'
     compile 'org.apache.commons:commons-lang3:3.0'
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'

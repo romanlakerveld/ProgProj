@@ -1,14 +1,21 @@
 package com.example.roman.interaction;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,7 +36,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SearchMaschup extends FragmentActivity implements OnMapReadyCallback {
+public class SearchMaschup extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     public AutoCompleteTextView target;
@@ -48,6 +55,8 @@ public class SearchMaschup extends FragmentActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
         mapFragment.getView().setVisibility(View.INVISIBLE);
 
+        setTitle("Explore the database");
+
         // Initialize views
         target = findViewById(R.id.target);
         source = findViewById(R.id.source);
@@ -56,18 +65,15 @@ public class SearchMaschup extends FragmentActivity implements OnMapReadyCallbac
 
         Button button = findViewById(R.id.search);
         button.setOnClickListener(new OnSearchClickListener());
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         final ArrayList<String> interactionList = new ArrayList<>();
 
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SearchMaschup.this);
-        databaseAccess.open();
-        String[] taxa = databaseAccess.getAllTaxa();
-        databaseAccess.close();
+        new GetTaxaFromDatabase().execute();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, taxa);
-
-        source.setAdapter(adapter);
-        target.setAdapter(adapter);
 
         horizontalPicker = findViewById(R.id.picker);
 
@@ -86,15 +92,6 @@ public class SearchMaschup extends FragmentActivity implements OnMapReadyCallbac
                             JSONObject jsonObject = new JSONObject(response);
                             String[] interactions = new String[jsonObject.length()];
                             for (int i = 0; i < jsonObject.length(); i++) {
-                                // put every interaction in list and convert camelCase to readable text
-//                                interactionList.add(jsonObject.names().getString(i).replaceAll(
-//                                        String.format("%s|%s|%s",
-//                                                "(?<=[A-Z])(?=[A-Z][a-z])",
-//                                                "(?<=[^A-Z])(?=[A-Z])",
-//                                                "(?<=[A-Za-z])(?=[^A-Za-z])"
-//                                        ),
-//                                        " "
-//                                ));
                                 interactions[i] = jsonObject.names().getString(i).replaceAll(
                                         String.format("%s|%s|%s",
                                                 "(?<=[A-Z])(?=[A-Z][a-z])",
@@ -120,17 +117,45 @@ public class SearchMaschup extends FragmentActivity implements OnMapReadyCallbac
         requestQueue.add(stringRequest);
     }
 
+    class GetTaxaFromDatabase extends AsyncTask<String[], Integer, String[]> {
+
+        @Override
+        protected String[] doInBackground(String[]... strings) {
+            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SearchMaschup.this);
+            databaseAccess.open();
+            String[] taxa = databaseAccess.getAllTaxa();
+            databaseAccess.close();
+            return  taxa;
+        }
+
+        @Override
+        protected void onPostExecute(String[] s) {
+            super.onPostExecute(s);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchMaschup.this, android.R.layout.simple_list_item_1, s);
+
+            source.setAdapter(adapter);
+            target.setAdapter(adapter);
+        }
+    }
+
     class OnMapToggle implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
             if (mapToggle.isChecked()) {
                 mapFragment.getView().setVisibility(View.VISIBLE);
+                hideSoftKeyboard(SearchMaschup.this, view);
             }
             else {
                 mapFragment.getView().setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    public static void hideSoftKeyboard (Activity activity, View view)
+    {
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
     }
 
     class OnSearchClickListener implements View.OnClickListener {
@@ -139,6 +164,12 @@ public class SearchMaschup extends FragmentActivity implements OnMapReadyCallbac
             String interaction = horizontalPicker.getValues()[horizontalPicker.getSelectedItem()].toString().replaceAll(" ", "");
             String targetText = target.getText().toString();
             String sourceText = source.getText().toString();
+
+            if (targetText.equals("") && sourceText.equals("") && !mapToggle.isChecked()) {
+                Toast.makeText(SearchMaschup.this, "Please enter at least a source or a target. Or try using the map to search.",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
 
             Intent intent = new Intent(SearchMaschup.this, ActionResultsActivity.class);
             intent  .putExtra("interaction", interaction)

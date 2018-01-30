@@ -72,7 +72,7 @@ public class DatabaseAccess {
         String latinName = cursor.getString(0);
         cursor.close();
         String common = StringUtils.strip(latinName, "@en").trim();
-        return "(" + common + ")";
+        return " (" + common + ")";
     }
 
     public String[] getAllTaxa() {
@@ -99,7 +99,6 @@ public class DatabaseAccess {
 
         String latinTrimmed = latin.replaceAll("\\(.*?\\)","").trim();
         Cursor cursor = database.rawQuery("SELECT * FROM urlMap WHERE taxa = '"+latinTrimmed+"'", null);
-        Log.d("GetUrls", "getAllUrls: " + latinTrimmed);
 
         if (cursor.getCount() >0) {
             String[] urls = new String[cursor.getCount()];

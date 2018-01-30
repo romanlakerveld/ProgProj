@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -46,6 +47,12 @@ public class ResultsActivity extends AppCompatActivity {
 
         urlList.setAdapter(adapter);
         urlList.setOnItemClickListener(new OnUrlClicked());
+
+        if (ids.length == 0) {
+            Toast.makeText(ResultsActivity.this, "No data on this species was found",
+                    Toast.LENGTH_LONG).show();
+            finish();
+        }
 
         for (int i = 0; i < ids.length; i++) {
             String url = "https://api.globalbioticinteractions.org/findExternalUrlForExternalId/" + ids[i];

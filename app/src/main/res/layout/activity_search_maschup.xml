@@ -9,13 +9,18 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <AutoCompleteTextView
-            android:id="@+id/source"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Source of interaction"/>
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Source of interaction"
+                android:inputType="textPersonName" />
+        </android.support.design.widget.TextInputLayout>
 
         <com.wefika.horizontalpicker.HorizontalPicker
             xmlns:picker="http://schemas.android.com/apk/res/com.wefika.horizontalpicker"
@@ -24,20 +29,23 @@
             android:textColor="@color/horizonal_picker"
             android:textSize="@dimen/textSize"
             android:ellipsize="middle"
-            android:marqueeRepeatLimit="-1"
+            android:marqueeRepeatLimit="2"
             android:id="@+id/picker"
             android:paddingTop="18sp"
             android:scrollbars="vertical"
             android:paddingBottom="20sp"/>
 
-        <AutoCompleteTextView
-            android:id="@+id/target"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Target of interaction" />
-
+            android:layout_height="wrap_content">
+            <AutoCompleteTextView
+                android:id="@+id/target"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="Target of interaction" />
+        </android.support.design.widget.TextInputLayout>
         <CheckBox
             android:id="@+id/mapToggle"
             android:layout_width="match_parent"
@@ -56,8 +64,9 @@
         <Button
             android:id="@+id/search"
             android:layout_width="match_parent"
+            style="@android:style/Widget.Holo.Button.Small"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="Search interactions" />
     </LinearLayout>
 
 </RelativeLayout>
