@@ -71,7 +71,8 @@ public class DatabaseAccess {
         cursor.moveToFirst();
         String latinName = cursor.getString(0);
         cursor.close();
-        return "(" + StringUtils.strip(latinName, "@en") + ")";
+        String common = StringUtils.strip(latinName, "@en").trim();
+        return "(" + common + ")";
     }
 
     public String[] getAllTaxa() {

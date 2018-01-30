@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.wefika.horizontalpicker.HorizontalPicker;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
@@ -44,12 +45,13 @@ public class ActionResultsActivity extends AppCompatActivity {
 
         // Instantiate listView
         final ListView listView = findViewById(R.id.actionList);
+        final TextView textView = findViewById(R.id.resultText);
 
         // Get intent and extract extras
         Intent intent = getIntent();
         String interactionValue = intent.getStringExtra("interaction");
-        String target = intent.getStringExtra("target").replaceAll("\\(.*?\\)","").trim();
-        String source = intent.getStringExtra("source").replaceAll("\\(.*?\\)","").trim();
+        final String target = intent.getStringExtra("target");
+        final String source = intent.getStringExtra("source");
         String coordinates = intent.getStringExtra("coords");
 
         // Check if interaction isn't null, else set it to a basic value
@@ -66,12 +68,12 @@ public class ActionResultsActivity extends AppCompatActivity {
         // Check if extras were null, if so dont add them to the API request.
         if (target != null){
             if (!target.equals("")) {
-                url += "targetTaxon=" + target + "&";
+                url += "targetTaxon=" + target.replaceAll("\\(.*?\\)","").trim() + "&";
             }
         }
         if (source != null){
             if (!source.equals("")) {
-                url += "sourceTaxon=" + source + "&";
+                url += "sourceTaxon=" + source.replaceAll("\\(.*?\\)","").trim() + "&";
             }
         }
         if (coordinates != null) {
@@ -89,6 +91,7 @@ public class ActionResultsActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         // Create new requestQueue for getting the interactions.
+        final String finalInteractionValue = interactionValue;
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -97,6 +100,15 @@ public class ActionResultsActivity extends AppCompatActivity {
                         try {
                             // extract array with interactions from the response
                             array = new JSONObject(response).getJSONArray("data");
+
+                            if (array.length() == 0) {
+                                textView.setText("Unfortunately, no results for this search were found.");
+                            }
+                            else {
+                                Resources resources = getResources();
+                                String string = resources.getString(R.string.results_info, source, finalInteractionValue, target);
+                                textView.setText(string);
+                            }
 
                             // for every interaction in array
                             for (int i = 0; i < array.length() && i < 30; i++) {

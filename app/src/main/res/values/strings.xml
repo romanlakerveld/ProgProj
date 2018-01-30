@@ -3,4 +3,7 @@
     <string name="title_activity_area_search">Map</string>
     <string name="textview">TextView</string>
     <string name="title_activity_action_area">Map</string>
+    <string name="results_info">Showing results for:\n %1$s %2$s %3$s</string>
+    <string name="title_activity_search_maschup">Map</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

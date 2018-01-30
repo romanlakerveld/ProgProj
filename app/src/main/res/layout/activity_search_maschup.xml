@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <AutoCompleteTextView
+            android:id="@+id/source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Source of interaction"/>
+
+        <com.wefika.horizontalpicker.HorizontalPicker
+            xmlns:picker="http://schemas.android.com/apk/res/com.wefika.horizontalpicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/horizonal_picker"
+            android:textSize="@dimen/textSize"
+            android:ellipsize="middle"
+            android:marqueeRepeatLimit="-1"
+            android:id="@+id/picker"
+            android:paddingTop="18sp"
+            android:scrollbars="vertical"
+            android:paddingBottom="20sp"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/target"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Target of interaction" />
+
+        <CheckBox
+            android:id="@+id/mapToggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Allow area search" />
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            tools:context="com.example.roman.interaction.SearchMaschup"
+            />
+
+        <Button
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Welcome to the InterAction App"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:paddingHorizontal="20sp"
+            android:paddingVertical="10sp"
+            android:text="This app uses the Global Biotic Interactions database, which contains an enormous amount of documented species interactions. To start exploring the databases press the following button:" />
+
+        <Button
+            android:id="@+id/explore"
+            style="@android:style/Widget.Holo.Button.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Explore the database" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:paddingHorizontal="20sp"
+            android:paddingVertical="10sp"
+            android:text="Alternatively search for your favorite species below:" />
+
+        <AutoCompleteTextView
+            android:id="@+id/species"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Eg. Homo Sapiens"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/lookup"
+            style="@android:style/Widget.Holo.Button.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Look up this species" />
+    </LinearLayout>
+</RelativeLayout>
