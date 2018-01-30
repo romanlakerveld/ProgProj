@@ -37,3 +37,9 @@ I have implemented the autocomplete function, which now works for all the EditTe
 
 # Week 3 - Day 5
 Added sites showing info on species in a new activity.
+
+# Week 4 - Day 1
+Started overhauling the navigation system to be more user friendly as well as making the layout prettier.
+
+# Week 4 - Day 2
+Same as yesterday, tomorrow i will dedicate to cleaning up the code.
