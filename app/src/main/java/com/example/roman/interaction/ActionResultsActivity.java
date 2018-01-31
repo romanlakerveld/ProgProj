@@ -112,7 +112,13 @@ public class ActionResultsActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    public String BuildSearchInfo(String source, String interaction, String target, String coordinates) {
+
+    public String MakeURLFromIntent (Intent intent) {
+        String interaction = intent.getStringExtra("interaction");
+        String target = intent.getStringExtra("target");
+        String source = intent.getStringExtra("source");
+        String coordinates = intent.getStringExtra("coords");
+
         if (source.equals("")) {
             source = "anything";
         }
@@ -127,16 +133,7 @@ public class ActionResultsActivity extends AppCompatActivity {
         else {
             info = resources.getString(R.string.results_info_map, source, interaction, target);
         }
-        return info;
-    }
 
-    public String MakeURLFromIntent (Intent intent) {
-        String interaction = intent.getStringExtra("interaction");
-        final String target = intent.getStringExtra("target");
-        final String source = intent.getStringExtra("source");
-        String coordinates = intent.getStringExtra("coords");
-
-        String info = BuildSearchInfo(source, interaction, target, coordinates);
         textView.setText(Html.fromHtml(info));
 
         // Build the url for API-request
