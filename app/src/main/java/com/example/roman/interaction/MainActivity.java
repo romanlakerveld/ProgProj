@@ -15,60 +15,54 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     AutoCompleteTextView species;
-    TextInputLayout til;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // initiate views and set listeners
+        species = findViewById(R.id.species);
         Button lookup = findViewById(R.id.lookup);
         Button explore = findViewById(R.id.explore);
-        lookup.setOnClickListener(new OnLookupClickListener());
-        explore.setOnClickListener(new OnExploreListener());
+        lookup.setOnClickListener(new OnButtonListener());
+        explore.setOnClickListener(new OnButtonListener());
 
-        species = findViewById(R.id.species);
-
+        // get taxa from database connection
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(MainActivity.this);
         databaseAccess.open();
         String[] taxa = databaseAccess.getAllTaxa();
         databaseAccess.close();
 
+        // initiate new adapter and connect to the autocomplete text
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, taxa);
         species.setAdapter(adapter);
 
 
     }
 
-    class OnExploreListener implements View.OnClickListener {
+    class OnButtonListener implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.lookup:
-                    Intent intent = new Intent(MainActivity.this, SpeciesSearchActivity.class);
+                    // check if a species has been specified, else raise an error
+                    if (species.getText().toString().equals("")) {
+                        Toast.makeText(MainActivity.this, "No species specified.",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    // if a species has been specified, hand it as extra to ResultsActivity
+                    Intent intent = new Intent(MainActivity.this, ResultsActivity.class);
+                    intent.putExtra("taxa", species.getText().toString());
                     startActivity(intent);
                     break;
                 case R.id.explore:
-                    Intent intent1 = new Intent(MainActivity.this, SearchMaschup.class);
+                    // navigate to SearchMashup
+                    Intent intent1 = new Intent(MainActivity.this, SearchMashup.class);
                     startActivity(intent1);
-                    //TODO
             }
-        }
-    }
-
-    class OnLookupClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-            if (species.getText().toString().equals("")) {
-                Toast.makeText(MainActivity.this, "No species specified.",
-                        Toast.LENGTH_LONG).show();
-                return;
-            }
-            Intent intent = new Intent(MainActivity.this, ResultsActivity.class);
-            intent.putExtra("taxa", species.getText().toString());
-            startActivity(intent);
         }
     }
 }

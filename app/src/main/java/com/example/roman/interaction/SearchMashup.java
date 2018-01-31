@@ -36,7 +36,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SearchMaschup extends AppCompatActivity implements OnMapReadyCallback {
+public class SearchMashup extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     public AutoCompleteTextView target;
@@ -121,7 +121,7 @@ public class SearchMaschup extends AppCompatActivity implements OnMapReadyCallba
 
         @Override
         protected String[] doInBackground(String[]... strings) {
-            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SearchMaschup.this);
+            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SearchMashup.this);
             databaseAccess.open();
             String[] taxa = databaseAccess.getAllTaxa();
             databaseAccess.close();
@@ -131,7 +131,7 @@ public class SearchMaschup extends AppCompatActivity implements OnMapReadyCallba
         @Override
         protected void onPostExecute(String[] s) {
             super.onPostExecute(s);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchMaschup.this, android.R.layout.simple_list_item_1, s);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchMashup.this, android.R.layout.simple_list_item_1, s);
 
             source.setAdapter(adapter);
             target.setAdapter(adapter);
@@ -144,7 +144,7 @@ public class SearchMaschup extends AppCompatActivity implements OnMapReadyCallba
         public void onClick(View view) {
             if (mapToggle.isChecked()) {
                 mapFragment.getView().setVisibility(View.VISIBLE);
-                hideSoftKeyboard(SearchMaschup.this, view);
+                hideSoftKeyboard(SearchMashup.this, view);
             }
             else {
                 mapFragment.getView().setVisibility(View.INVISIBLE);
@@ -166,12 +166,12 @@ public class SearchMaschup extends AppCompatActivity implements OnMapReadyCallba
             String sourceText = source.getText().toString();
 
             if (targetText.equals("") && sourceText.equals("") && !mapToggle.isChecked()) {
-                Toast.makeText(SearchMaschup.this, "Please enter at least a source or a target. Or try using the map to search.",
+                Toast.makeText(SearchMashup.this, "Please enter at least a source or a target. Or try using the map to search.",
                         Toast.LENGTH_LONG).show();
                 return;
             }
 
-            Intent intent = new Intent(SearchMaschup.this, ActionResultsActivity.class);
+            Intent intent = new Intent(SearchMashup.this, ActionResultsActivity.class);
             intent  .putExtra("interaction", interaction)
                     .putExtra("target", targetText)
                     .putExtra("source", sourceText);

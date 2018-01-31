@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".SpeciesSearchActivity" />
         <activity android:name=".ResultsActivity" />
-        <activity android:name=".SearchMaschup"/>
+        <activity android:name=".SearchMashup"/>
         <activity android:name=".ActionResultsActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
