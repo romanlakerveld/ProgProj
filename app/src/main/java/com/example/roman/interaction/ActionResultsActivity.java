@@ -41,7 +41,7 @@ import java.util.List;
 public class ActionResultsActivity extends AppCompatActivity {
     ArrayList<Interaction> interactions;
     ListView listView;
-    TextView textView;
+    TextView infoView;
     RequestQueue requestQueue;
 
 
@@ -51,18 +51,80 @@ public class ActionResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_action_results);
         setTitle("Interaction results");
 
-        // Instantiate listView
+        // initiate views
         listView = findViewById(R.id.actionList);
-        textView = findViewById(R.id.resultText);
+        infoView = findViewById(R.id.resultText);
 
-        // Instantiate ArrayList for interactions
+        // initiate arrayList for interactions
         interactions = new ArrayList<>();
 
+        // get a new requestqueue
         requestQueue = Volley.newRequestQueue(this);
 
+        // call necessary functions
         String url = HandleParametersFromIntent(getIntent());
         GetInteractionsFromURL(url);
     }
+
+    /**
+     * Takes an intent and extracts the extras, next it build an url using those extras and returns
+     * the url. Also changes the textview to display information on the search parameters.
+     * @param intent intent from previous activity
+     * @return url to be used for calling the API
+     */
+    public String HandleParametersFromIntent (Intent intent) {
+        // get string extras from intent
+        String interaction = intent.getStringExtra("interaction");
+        String target = intent.getStringExtra("target");
+        String source = intent.getStringExtra("source");
+        String coordinates = intent.getStringExtra("coords");
+
+        // build the url for API-request
+        String url = "https://api.globalbioticinteractions.org/interaction?";
+
+        // if extras are not empty, add them to the parameters
+        if (!target.equals("")) {
+            url += "targetTaxon=" + target.replaceAll("\\(.*?\\)","").trim() + "&";
+        }
+        if (!source.equals("")) {
+            url += "sourceTaxon=" + source.replaceAll("\\(.*?\\)","").trim() + "&";
+        }
+        if (coordinates != null) {
+            url += "bbox=" + coordinates + "&";
+        }
+
+        // add interactionType to url
+        url += "interactionType=" + interaction;
+
+        // replace spaces with "%20"
+        url = url.replaceAll(" ", "%20");
+
+        // TODO: remove log
+        Log.d("URL", "HandleParametersFromIntent: " + url);
+
+        // change empty fields to "anyting" for the sake of user experience
+        if (source.equals("")) {
+            source = "anything";
+        }
+        if (target.equals("")) {
+            target = "anything";
+        }
+
+        // use appropriate string resource depending on whether coordinates is or isnt null
+        String info;
+        if (coordinates == null) {
+            info = getResources().getString(R.string.results_info, source, interaction, target);
+        }
+        else {
+            info = getResources().getString(R.string.results_info_map, source, interaction, target);
+        }
+
+        // set text of textview with html
+        infoView.setText(Html.fromHtml(info));
+
+        return url;
+    }
+
 
     public void GetInteractionsFromURL(String url) {
 
@@ -75,7 +137,7 @@ public class ActionResultsActivity extends AppCompatActivity {
                             // extract array with interactions from the response
                             JSONArray array = new JSONObject(response).getJSONArray("data");
 
-                            if (array.length() == 0) textView.setText("Unfortunately, no results for this search were found.");
+                            if (array.length() == 0) infoView.setText(R.string.no_results_info);
 
                             // for every interaction in array
                             for (int i = 0; i < array.length() && i < 30; i++) {
@@ -106,53 +168,5 @@ public class ActionResultsActivity extends AppCompatActivity {
             }
         });
         requestQueue.add(stringRequest);
-    }
-
-
-    public String HandleParametersFromIntent (Intent intent) {
-        String interaction = intent.getStringExtra("interaction");
-        String target = intent.getStringExtra("target");
-        String source = intent.getStringExtra("source");
-        String coordinates = intent.getStringExtra("coords");
-
-        if (source.equals("")) {
-            source = "anything";
-        }
-        if (target.equals("")) {
-            target = "anything";
-        }
-        Resources resources = getResources();
-        String info;
-        if (coordinates == null) {
-            info = resources.getString(R.string.results_info, source, interaction, target);
-        }
-        else {
-            info = resources.getString(R.string.results_info_map, source, interaction, target);
-        }
-
-        textView.setText(Html.fromHtml(info));
-
-        // Build the url for API-request
-        String url = "https://api.globalbioticinteractions.org/interaction?";
-
-        // Check if extras were null, if so dont add them to the API request.
-        if (!target.equals("")) {
-            url += "targetTaxon=" + target.replaceAll("\\(.*?\\)","").trim() + "&";
-        }
-
-        if (!source.equals("")) {
-            url += "sourceTaxon=" + source.replaceAll("\\(.*?\\)","").trim() + "&";
-        }
-
-        if (coordinates != null) {
-            url += "bbox=" + coordinates + "&";
-        }
-
-        // interactionType is never null so can simply be added
-        url += "interactionType=" + interaction;
-
-        // replace spaces with "%20"
-        url = url.replaceAll(" ", "%20");
-        return url;
     }
 }

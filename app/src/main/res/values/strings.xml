@@ -8,4 +8,5 @@
     <string name="url_result">Found %1$d urls with information about %2$s.</string>
     <string name="title_activity_search_maschup">Map</string>
     <string name="title_activity_maps">Map</string>
+    <string name="no_results_info">Unfortunately, no results for this search were found.</string>
 </resources>
