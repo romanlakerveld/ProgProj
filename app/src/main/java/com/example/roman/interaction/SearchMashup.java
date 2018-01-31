@@ -36,6 +36,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Activity that combines different search options (searching with or without map).
+ */
 public class SearchMashup extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -54,6 +57,7 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        // initially set map invisible
         mapFragment.getView().setVisibility(View.INVISIBLE);
 
         // Initialize views and set click listeners
@@ -65,7 +69,7 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
         mapToggle.setOnClickListener(new OnClickHandler());
         search.setOnClickListener(new OnClickHandler());
 
-        // asyncTask for getting all taxa and putting them in the autocompletes
+        // asyncTask for getting all taxa and putting them in the auto-completes
         new GetTaxaFromDatabase().execute();
 
         // Uses stringrequest to get all supported interactions.

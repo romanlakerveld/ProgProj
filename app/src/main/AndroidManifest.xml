@@ -25,7 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SpeciesSearchActivity" />
         <activity android:name=".ResultsActivity" />
         <activity android:name=".SearchMashup"/>
         <activity android:name=".ActionResultsActivity"/>

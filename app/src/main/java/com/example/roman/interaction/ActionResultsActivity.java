@@ -67,27 +67,7 @@ public class ActionResultsActivity extends AppCompatActivity {
         // Instantiate ArrayList for interactions
         interactions = new ArrayList<>();
 
-        // Build the url for API-request
-        String url = "https://api.globalbioticinteractions.org/interaction?";
-
-        // Check if extras were null, if so dont add them to the API request.
-        if (!target.equals("")) {
-            url += "targetTaxon=" + target.replaceAll("\\(.*?\\)","").trim() + "&";
-        }
-
-        if (!source.equals("")) {
-            url += "sourceTaxon=" + source.replaceAll("\\(.*?\\)","").trim() + "&";
-        }
-
-        if (coordinates != null) {
-            url += "bbox=" + coordinates + "&";
-        }
-
-        // interactionType is never null so can simply be added
-        url += "interactionType=" + interactionValue;
-
-        // replace spaces with "%20"
-        url = url.replaceAll(" ", "%20");
+        String url = MakeURLFromParameters(source, interactionValue, target, coordinates);
 
         // New requestqueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -156,5 +136,30 @@ public class ActionResultsActivity extends AppCompatActivity {
             info = resources.getString(R.string.results_info_map, source, interaction, target);
         }
         return info;
+    }
+
+    public String MakeURLFromParameters (String source, String interaction, String target, String coordinates) {
+        // Build the url for API-request
+        String url = "https://api.globalbioticinteractions.org/interaction?";
+
+        // Check if extras were null, if so dont add them to the API request.
+        if (!target.equals("")) {
+            url += "targetTaxon=" + target.replaceAll("\\(.*?\\)","").trim() + "&";
+        }
+
+        if (!source.equals("")) {
+            url += "sourceTaxon=" + source.replaceAll("\\(.*?\\)","").trim() + "&";
+        }
+
+        if (coordinates != null) {
+            url += "bbox=" + coordinates + "&";
+        }
+
+        // interactionType is never null so can simply be added
+        url += "interactionType=" + interaction;
+
+        // replace spaces with "%20"
+        url = url.replaceAll(" ", "%20");
+        return url;
     }
 }

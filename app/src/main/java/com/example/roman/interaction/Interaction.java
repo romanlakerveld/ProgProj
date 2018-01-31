@@ -22,7 +22,7 @@ public class Interaction {
      *
      * @return source of interaction
      */
-    private String getSource() {
+    String getSource() {
         return source;
     }
 
@@ -46,7 +46,7 @@ public class Interaction {
      *
      * @return target of interaction
      */
-    private String getTarget() {
+    String getTarget() {
         return target;
     }
 
