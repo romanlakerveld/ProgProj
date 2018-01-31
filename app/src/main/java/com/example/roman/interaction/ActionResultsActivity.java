@@ -42,6 +42,8 @@ public class ActionResultsActivity extends AppCompatActivity {
     ArrayList<Interaction> interactions;
     ListView listView;
     TextView textView;
+    RequestQueue requestQueue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +58,14 @@ public class ActionResultsActivity extends AppCompatActivity {
         // Instantiate ArrayList for interactions
         interactions = new ArrayList<>();
 
+        requestQueue = Volley.newRequestQueue(this);
+
 
         String url = HandleParametersFromIntent(getIntent());
         GetInteractionsFromURL(url);
     }
 
     public void GetInteractionsFromURL(String url) {
-        // New requestqueue
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         // Create new requestQueue for getting the interactions.
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
