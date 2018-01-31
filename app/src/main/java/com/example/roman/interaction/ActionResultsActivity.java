@@ -100,8 +100,6 @@ public class ActionResultsActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -109,7 +107,6 @@ public class ActionResultsActivity extends AppCompatActivity {
 
             }
         });
-
         requestQueue.add(stringRequest);
     }
 
