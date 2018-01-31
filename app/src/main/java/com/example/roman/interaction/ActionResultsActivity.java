@@ -53,15 +53,15 @@ public class ActionResultsActivity extends AppCompatActivity {
         listView = findViewById(R.id.actionList);
         textView = findViewById(R.id.resultText);
 
+        // Instantiate ArrayList for interactions
+        interactions = new ArrayList<>();
+
 
         String url = HandleParametersFromIntent(getIntent());
         GetInteractionsFromURL(url);
     }
 
     public void GetInteractionsFromURL(String url) {
-        // Instantiate ArrayList for interactions
-        interactions = new ArrayList<>();
-
         // New requestqueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -75,9 +75,7 @@ public class ActionResultsActivity extends AppCompatActivity {
                             // extract array with interactions from the response
                             array = new JSONObject(response).getJSONArray("data");
 
-                            if (array.length() == 0) {
-                                textView.setText("Unfortunately, no results for this search were found.");
-                            }
+                            if (array.length() == 0) textView.setText("Unfortunately, no results for this search were found.");
 
                             // for every interaction in array
                             for (int i = 0; i < array.length() && i < 30; i++) {
