@@ -49,41 +49,31 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_maschup);
+        setTitle("Explore the database");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         mapFragment.getView().setVisibility(View.INVISIBLE);
 
-        setTitle("Explore the database");
-
-        // Initialize views
-        target = findViewById(R.id.target);
-        source = findViewById(R.id.source);
-        mapToggle = findViewById(R.id.mapToggle);
-        mapToggle.setOnClickListener(new OnMapToggle());
-
-        Button button = findViewById(R.id.search);
-        button.setOnClickListener(new OnSearchClickListener());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        final ArrayList<String> interactionList = new ArrayList<>();
+        // Initialize views and set click listeners
+        target          = findViewById(R.id.target);
+        source          = findViewById(R.id.source);
+        mapToggle       = findViewById(R.id.mapToggle);
+        Button search   = findViewById(R.id.search);
+        horizontalPicker= findViewById(R.id.picker);
+        mapToggle.setOnClickListener(new OnClickHandler());
+        search.setOnClickListener(new OnClickHandler());
 
         new GetTaxaFromDatabase().execute();
 
-
-        horizontalPicker = findViewById(R.id.picker);
-
-        // getting suppoorted interaction types from API
+        // getting supported interaction types from API
         String url = "https://api.globalbioticinteractions.org/interactionTypes";
 
         // Open a new request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        // Create a stringRequest for getting possible interactions. TODO: maybe put this in separate function.
+        // Create a stringRequest for getting possible interactions.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -138,17 +128,42 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    class OnMapToggle implements View.OnClickListener {
+    class OnClickHandler implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
-            if (mapToggle.isChecked()) {
-                mapFragment.getView().setVisibility(View.VISIBLE);
-                hideSoftKeyboard(SearchMashup.this, view);
+            switch (view.getId()) {
+                case R.id.mapToggle:
+                    if (mapToggle.isChecked()) {
+                        mapFragment.getView().setVisibility(View.VISIBLE);
+                        hideSoftKeyboard(SearchMashup.this, view);
+                    }
+                    else {
+                        mapFragment.getView().setVisibility(View.INVISIBLE);
+                    }
+                    break;
+                case R.id.search:
+                    String interaction = horizontalPicker.getValues()[horizontalPicker.getSelectedItem()].toString().replaceAll(" ", "");
+                    String targetText = target.getText().toString();
+                    String sourceText = source.getText().toString();
+
+                    if (targetText.equals("") && sourceText.equals("") && !mapToggle.isChecked()) {
+                        Toast.makeText(SearchMashup.this, "Please enter at least a source or a target. Or try using the map to search.",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    Intent intent = new Intent(SearchMashup.this, ActionResultsActivity.class);
+                    intent  .putExtra("interaction", interaction)
+                            .putExtra("target", targetText)
+                            .putExtra("source", sourceText);
+                    if (mapToggle.isChecked()) {
+                        String coords = MapUtils.getMapCoords(mMap);
+                        intent.putExtra("coords", coords);
+                    }
+                    startActivity(intent);
             }
-            else {
-                mapFragment.getView().setVisibility(View.INVISIBLE);
-            }
+
         }
     }
 
@@ -157,34 +172,6 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
         InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
     }
-
-    class OnSearchClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            String interaction = horizontalPicker.getValues()[horizontalPicker.getSelectedItem()].toString().replaceAll(" ", "");
-            String targetText = target.getText().toString();
-            String sourceText = source.getText().toString();
-
-            if (targetText.equals("") && sourceText.equals("") && !mapToggle.isChecked()) {
-                Toast.makeText(SearchMashup.this, "Please enter at least a source or a target. Or try using the map to search.",
-                        Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            Intent intent = new Intent(SearchMashup.this, ActionResultsActivity.class);
-            intent  .putExtra("interaction", interaction)
-                    .putExtra("target", targetText)
-                    .putExtra("source", sourceText);
-            if (mapToggle.isChecked()) {
-                String coords = MapUtils.getMapCoords(mMap);
-                intent.putExtra("coords", coords);
-            }
-            startActivity(intent);
-
-        }
-    }
-
-
 
 
 
