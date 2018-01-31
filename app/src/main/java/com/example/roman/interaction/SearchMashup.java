@@ -97,14 +97,7 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
                             for (int i = 0; i < jsonObject.length(); i++) {
                                 // add every interaction, putting a space in front of uppercase
                                 interactions[i] = jsonObject.names().getString(i).replaceAll(
-                                        String.format("%s|%s|%s",
-                                                "(?<=[A-Z])(?=[A-Z][a-z])",
-                                                "(?<=[^A-Z])(?=[A-Z])",
-                                                "(?<=[A-Za-z])(?=[^A-Za-z])"
-                                        ),
-                                        " "
-                                );
-
+                                        String.format("%s|%s|%s", "(?<=[A-Z])(?=[A-Z][a-z])", "(?<=[^A-Z])(?=[A-Z])", "(?<=[A-Za-z])(?=[^A-Za-z])"), " ");
                             }
                             // set interaction types as values for horizontal picker
                             horizontalPicker.setValues(interactions);
