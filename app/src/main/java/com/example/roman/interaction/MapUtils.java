@@ -12,7 +12,7 @@ import static java.lang.Math.round;
  * Helper class for getting coordinates from the google map.
  */
 
-public class MapUtils {
+class MapUtils {
 
     /**
      * Takes a GoogleMap object and extracts the coordinates of the current projection
@@ -44,7 +44,7 @@ public class MapUtils {
      * @param roundingMode  How the double should be rounded
      * @return              Return the rounded double
      */
-    public static double round(double unrounded, int precision, int roundingMode)
+    private static double round(double unrounded, int precision, int roundingMode)
     {
         BigDecimal bd = new BigDecimal(unrounded);
         BigDecimal rounded = bd.setScale(precision, roundingMode);

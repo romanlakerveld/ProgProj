@@ -13,6 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * The main and first screen of the app, contains navigation to SearchMashup and allows the user to
+ * search for information on a single species.
+ */
+
 public class MainActivity extends AppCompatActivity {
     AutoCompleteTextView species;
 
@@ -37,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
         // initiate new adapter and connect to the autocomplete text
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, taxa);
         species.setAdapter(adapter);
-
-
     }
 
+    /**
+     * Handles the clicks of the buttons for the activity, checking which button has been pressed
+     * and perform the according action.
+     */
     class OnButtonListener implements View.OnClickListener {
 
         @Override
