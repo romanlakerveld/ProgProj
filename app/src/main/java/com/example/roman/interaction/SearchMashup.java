@@ -65,9 +65,18 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
         mapToggle.setOnClickListener(new OnClickHandler());
         search.setOnClickListener(new OnClickHandler());
 
+        // asyncTask for getting all taxa and putting them in the autocompletes
         new GetTaxaFromDatabase().execute();
 
-        // getting supported interaction types from API
+        // Uses stringrequest to get all supported interactions.
+        GetInteractionTypes();
+    }
+
+    /**
+     * Uses StringRequest to get all supported interactions from the GloBI API and puts them into
+     * the horizontal picker widget.
+     */
+    public void GetInteractionTypes() {
         String url = "https://api.globalbioticinteractions.org/interactionTypes";
 
         // Open a new request queue
@@ -79,9 +88,14 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onResponse(String response) {
                         try {
+                            // make a new jsonObject from the response
                             JSONObject jsonObject = new JSONObject(response);
+
+                            // initialize array of strings to put interaction types into
                             String[] interactions = new String[jsonObject.length()];
+
                             for (int i = 0; i < jsonObject.length(); i++) {
+                                // add every interaction, putting a space in front of uppercase
                                 interactions[i] = jsonObject.names().getString(i).replaceAll(
                                         String.format("%s|%s|%s",
                                                 "(?<=[A-Z])(?=[A-Z][a-z])",
@@ -92,6 +106,7 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
                                 );
 
                             }
+                            // set interaction types as values for horizontal picker
                             horizontalPicker.setValues(interactions);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -107,10 +122,19 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
         requestQueue.add(stringRequest);
     }
 
+    /**
+     * AsyncTask for getting all available taxa from the database.
+     */
     class GetTaxaFromDatabase extends AsyncTask<String[], Integer, String[]> {
 
+        /**
+         * Opens a databaseAccess connecting and calls getAllTaxa to get the available taxa and
+         * puts it into an array of strings.
+         * @return String taxa contains all possible taxa.
+         */
         @Override
         protected String[] doInBackground(String[]... strings) {
+            // get all taxa from database
             DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SearchMashup.this);
             databaseAccess.open();
             String[] taxa = databaseAccess.getAllTaxa();
@@ -118,16 +142,23 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
             return  taxa;
         }
 
+        /**
+         * Set adapters for the autocomplete texts using the array of string provided.
+         * @param s contains the array of string from doInBackground
+         */
         @Override
         protected void onPostExecute(String[] s) {
             super.onPostExecute(s);
+            // create adapter with all taxa and connect it to the autocomplete texts
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchMashup.this, android.R.layout.simple_list_item_1, s);
-
             source.setAdapter(adapter);
             target.setAdapter(adapter);
         }
     }
 
+    /**
+     * Handles button clicks
+     */
     class OnClickHandler implements View.OnClickListener {
 
         @Override
@@ -135,28 +166,35 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
             switch (view.getId()) {
                 case R.id.mapToggle:
                     if (mapToggle.isChecked()) {
+                        // if map is turned on, make it visible and remove current keyboard
                         mapFragment.getView().setVisibility(View.VISIBLE);
                         hideSoftKeyboard(SearchMashup.this, view);
                     }
                     else {
+                        // if map is turned off, hide map
                         mapFragment.getView().setVisibility(View.INVISIBLE);
                     }
                     break;
                 case R.id.search:
+                    // get all the values from the input fields
                     String interaction = horizontalPicker.getValues()[horizontalPicker.getSelectedItem()].toString().replaceAll(" ", "");
                     String targetText = target.getText().toString();
                     String sourceText = source.getText().toString();
 
+                    // if not enough parameters were given raise a toast and return
                     if (targetText.equals("") && sourceText.equals("") && !mapToggle.isChecked()) {
                         Toast.makeText(SearchMashup.this, "Please enter at least a source or a target. Or try using the map to search.",
                                 Toast.LENGTH_LONG).show();
                         return;
                     }
 
+                    // navigate to action results and put the parameters as extras
                     Intent intent = new Intent(SearchMashup.this, ActionResultsActivity.class);
                     intent  .putExtra("interaction", interaction)
                             .putExtra("target", targetText)
                             .putExtra("source", sourceText);
+
+                    // if map is hidden, dont provide coordinates as extra
                     if (mapToggle.isChecked()) {
                         String coords = MapUtils.getMapCoords(mMap);
                         intent.putExtra("coords", coords);
@@ -167,10 +205,16 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    /**
+     * Hides the keyboard when called
+     */
     public static void hideSoftKeyboard (Activity activity, View view)
     {
+        // hides keyboard
         InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+        }
     }
 
 
