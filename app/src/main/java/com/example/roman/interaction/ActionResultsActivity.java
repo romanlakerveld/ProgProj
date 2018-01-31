@@ -62,6 +62,7 @@ public class ActionResultsActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
 
         // call necessary functions
+        setTextViewWithIntent(getIntent());
         String url = HandleParametersFromIntent(getIntent());
         GetInteractionsFromURL(url);
     }
@@ -98,6 +99,17 @@ public class ActionResultsActivity extends AppCompatActivity {
         // TODO: remove log
         Log.d("URL", "HandleParametersFromIntent: " + url);
 
+
+
+        return url;
+    }
+
+    public void setTextViewWithIntent(Intent intent) {
+        String interaction = intent.getStringExtra("interaction");
+        String target = intent.getStringExtra("target");
+        String source = intent.getStringExtra("source");
+        String coordinates = intent.getStringExtra("coords");
+
         // change empty fields to "anything" for the sake of displaying search parameters
         if (source.equals("")) {
             source = "anything";
@@ -115,10 +127,8 @@ public class ActionResultsActivity extends AppCompatActivity {
             info = getResources().getString(R.string.results_info_map, source, interaction, target);
         }
 
-        // set text of textview with html
+        // set text of textView with html
         infoView.setText(Html.fromHtml(info));
-
-        return url;
     }
 
     /**
