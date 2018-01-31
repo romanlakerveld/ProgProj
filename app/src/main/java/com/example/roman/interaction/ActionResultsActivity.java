@@ -70,10 +70,8 @@ public class ActionResultsActivity extends AppCompatActivity {
             interactionValue = "interactsWith";
         }
 
-//        if ()
-//        Resources resources = getResources();
-//        String string = resources.getString(R.string.results_info, source, interactionValue, target);
-//        textView.setText(string);
+        String info = BuildSearchInfo(source, interactionValue, target, coordinates);
+        textView.setText(Html.fromHtml(info));
 
         // Instantiate ArrayList for interactions
         interactions = new ArrayList<>();
@@ -153,6 +151,24 @@ public class ActionResultsActivity extends AppCompatActivity {
         });
 
         requestQueue.add(stringRequest);
+    }
+
+    public String BuildSearchInfo(String source, String interaction, String target, String coordinates) {
+        if (source.equals("")) {
+            source = "anything";
+        }
+        if (target.equals("")) {
+            target = "anything";
+        }
+        Resources resources = getResources();
+        String info;
+        if (coordinates == null) {
+            info = resources.getString(R.string.results_info, source, interaction, target);
+        }
+        else {
+            info = resources.getString(R.string.results_info_map, source, interaction, target);
+        }
+        return info;
     }
 
     public class Interaction {

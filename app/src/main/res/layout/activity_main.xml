@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,13 +43,19 @@
             android:paddingVertical="10sp"
             android:text="Alternatively search for your favorite species below:" />
 
-        <AutoCompleteTextView
-            android:id="@+id/species"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Eg. Homo Sapiens"
-            android:inputType="textPersonName" />
+            app:hintEnabled="false"
+            android:id="@+id/til">
+            <AutoCompleteTextView
+                android:id="@+id/species"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Eg. Homo Sapiens"
+                android:inputType="textPersonName" />
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/lookup"

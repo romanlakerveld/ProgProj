@@ -1,6 +1,7 @@
 package com.example.roman.interaction;
 
 import android.content.Intent;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     AutoCompleteTextView species;
+    TextInputLayout til;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
+            if (species.getText().toString().equals("")) {
+                Toast.makeText(MainActivity.this, "No species specified.",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
             Intent intent = new Intent(MainActivity.this, ResultsActivity.class);
             intent.putExtra("taxa", species.getText().toString());
             startActivity(intent);

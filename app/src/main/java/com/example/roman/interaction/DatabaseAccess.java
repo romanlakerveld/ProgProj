@@ -64,6 +64,7 @@ public class DatabaseAccess {
      * @return a List of quotes
      */
     public String getCommon(String latin) {
+        // initiate
         Cursor cursor = database.rawQuery("SELECT common FROM latintocommon WHERE latin = '"+latin+"'", null);
         if (cursor.getCount() == 0) {
             return "";

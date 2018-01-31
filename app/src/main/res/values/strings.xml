@@ -3,7 +3,9 @@
     <string name="title_activity_area_search">Map</string>
     <string name="textview">TextView</string>
     <string name="title_activity_action_area">Map</string>
-    <string name="results_info">Showing results for:\n %1$s %2$s %3$s</string>
+    <string name="results_info">Showing results for: &lt;u>%1$s&lt;/u> %2$s &lt;u>%3$s&lt;/u>.</string>
+    <string name="results_info_map">Showing results for: &lt;u>%1$s&lt;/u> %2$s &lt;u>%3$s&lt;/u> in the specified area</string>
+    <string name="url_result">Found %1$d urls with information about %2$s.</string>
     <string name="title_activity_search_maschup">Map</string>
     <string name="title_activity_maps">Map</string>
 </resources>

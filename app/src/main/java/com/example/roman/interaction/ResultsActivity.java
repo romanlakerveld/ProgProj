@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -42,6 +43,7 @@ public class ResultsActivity extends AppCompatActivity {
         final RequestQueue requestQueue = Volley.newRequestQueue(ResultsActivity.this);
 
         ListView urlList = findViewById(R.id.urlList);
+        TextView textView = findViewById(R.id.resulttext);
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, convertedURl);
 
@@ -53,6 +55,10 @@ public class ResultsActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
             finish();
         }
+
+        String info = getResources().getString(R.string.url_result, ids.length, source);
+        textView.setText(info);
+
 
         for (int i = 0; i < ids.length; i++) {
             String url = "https://api.globalbioticinteractions.org/findExternalUrlForExternalId/" + ids[i];

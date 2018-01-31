@@ -12,77 +12,16 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/taxa"
+            android:id="@+id/resulttext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <Button
-            android:id="@+id/ITIS"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Integrated taxonomic information system"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/EOL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Encyclopedia of life"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/WORMS"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="World Register of Marine Species"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/IRMNG"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Interim Register of Marine and Nonmarine Genera"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/GBIF"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Global Biodiversity Information Facility"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/NBN"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="National Biodiversity Network"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/OTT"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="open tree of life"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/INAT_TAXON"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="inaturalist"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/ENVO"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ontobee"
-            android:visibility="gone" />
+            android:textStyle="bold" />
 
         <ListView
             android:id="@+id/urlList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:dividerHeight="2sp"
+            android:divider="#000000"/>
     </LinearLayout>
 </RelativeLayout>
