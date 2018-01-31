@@ -47,17 +47,12 @@ public class ActionResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_results);
+        setTitle("Interaction results");
 
         // Instantiate listView
         listView = findViewById(R.id.actionList);
         textView = findViewById(R.id.resultText);
 
-        setTitle("Interaction results");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         // Get intent and extract extras
         Intent intent = getIntent();
         String interactionValue = intent.getStringExtra("interaction");
@@ -65,11 +60,7 @@ public class ActionResultsActivity extends AppCompatActivity {
         final String source = intent.getStringExtra("source");
         String coordinates = intent.getStringExtra("coords");
 
-        // Check if interaction isn't null, else set it to a basic value
-        if (interactionValue == null) {
-            interactionValue = "interactsWith";
-        }
-
+        // make string o
         String info = BuildSearchInfo(source, interactionValue, target, coordinates);
         textView.setText(Html.fromHtml(info));
 
@@ -103,7 +94,6 @@ public class ActionResultsActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         // Create new requestQueue for getting the interactions.
-        final String finalInteractionValue = interactionValue;
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -123,10 +113,10 @@ public class ActionResultsActivity extends AppCompatActivity {
                                 JSONArray jsonArray = array.getJSONArray(i);
 
                                 // create new interaction class and set values
-                                Interaction interaction = new Interaction();
+                                Interaction interaction = new Interaction(ActionResultsActivity.this);
                                 interaction.setSource(jsonArray.getString(1));
-                                interaction.setTarget(jsonArray.getString(7));
                                 interaction.setInteraction(jsonArray.getString(5));
+                                interaction.setTarget(jsonArray.getString(7));
 
                                 // add interaction to the list of interactions
                                 interactions.add(interaction);
@@ -167,47 +157,6 @@ public class ActionResultsActivity extends AppCompatActivity {
             info = resources.getString(R.string.results_info_map, source, interaction, target);
         }
         return info;
-    }
-
-    public class Interaction {
-        private String source;
-        private String target;
-        private String interaction;
-
-        public String getSource() {
-            return source;
-        }
-
-        public void setSource(String source) {
-            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ActionResultsActivity.this);
-            databaseAccess.open();
-            String common = databaseAccess.getCommon(source);
-            databaseAccess.close();
-
-            this.source = "<i>" + source + "</i>" + common;
-        }
-
-        public String getTarget() {
-            return target;
-        }
-
-        public void setTarget(String target) {
-            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ActionResultsActivity.this);
-            databaseAccess.open();
-            String common = databaseAccess.getCommon(target);
-            databaseAccess.close();
-
-            this.target = "<i>" + target + "</i>" + common;
-        }
-
-        public String getInteraction() {
-            return interaction;
-        }
-
-        public void setInteraction(String interaction) {
-            this.interaction = interaction;
-        }
-
     }
 
     class ViewHolder {
