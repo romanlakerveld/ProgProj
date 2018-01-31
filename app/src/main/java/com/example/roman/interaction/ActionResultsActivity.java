@@ -80,16 +80,14 @@ public class ActionResultsActivity extends AppCompatActivity {
         String url = "https://api.globalbioticinteractions.org/interaction?";
 
         // Check if extras were null, if so dont add them to the API request.
-        if (target != null){
-            if (!target.equals("")) {
-                url += "targetTaxon=" + target.replaceAll("\\(.*?\\)","").trim() + "&";
-            }
+        if (!target.equals("")) {
+            url += "targetTaxon=" + target.replaceAll("\\(.*?\\)","").trim() + "&";
         }
-        if (source != null){
-            if (!source.equals("")) {
-                url += "sourceTaxon=" + source.replaceAll("\\(.*?\\)","").trim() + "&";
-            }
+
+        if (!source.equals("")) {
+            url += "sourceTaxon=" + source.replaceAll("\\(.*?\\)","").trim() + "&";
         }
+
         if (coordinates != null) {
             url += "bbox=" + coordinates + "&";
         }
