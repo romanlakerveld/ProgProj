@@ -53,21 +53,13 @@ public class ActionResultsActivity extends AppCompatActivity {
         listView = findViewById(R.id.actionList);
         textView = findViewById(R.id.resultText);
 
-        // Get intent and extract extras
-        Intent intent = getIntent();
-        String interactionValue = intent.getStringExtra("interaction");
-        final String target = intent.getStringExtra("target");
-        final String source = intent.getStringExtra("source");
-        String coordinates = intent.getStringExtra("coords");
 
-        // make string o
-        String info = BuildSearchInfo(source, interactionValue, target, coordinates);
-        textView.setText(Html.fromHtml(info));
+        String url = MakeURLFromIntent(getIntent());
+
 
         // Instantiate ArrayList for interactions
         interactions = new ArrayList<>();
 
-        String url = MakeURLFromParameters(source, interactionValue, target, coordinates);
 
         // New requestqueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -138,7 +130,15 @@ public class ActionResultsActivity extends AppCompatActivity {
         return info;
     }
 
-    public String MakeURLFromParameters (String source, String interaction, String target, String coordinates) {
+    public String MakeURLFromIntent (Intent intent) {
+        String interaction = intent.getStringExtra("interaction");
+        final String target = intent.getStringExtra("target");
+        final String source = intent.getStringExtra("source");
+        String coordinates = intent.getStringExtra("coords");
+
+        String info = BuildSearchInfo(source, interaction, target, coordinates);
+        textView.setText(Html.fromHtml(info));
+
         // Build the url for API-request
         String url = "https://api.globalbioticinteractions.org/interaction?";
 
