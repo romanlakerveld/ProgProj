@@ -27,38 +27,56 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ResultsActivity extends AppCompatActivity {
-
+    ArrayList<String> convertedURl;
     RequestQueue requestQueue;
+    ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
-        Intent intent = getIntent();
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ResultsActivity.this);
-        databaseAccess.open();
-        String source = intent.getStringExtra("taxa");
-        String[] ids = databaseAccess.getAllUrls(source);
-        final ArrayList<String> convertedURl = new ArrayList<>();
-        databaseAccess.close();
-        final RequestQueue requestQueue = Volley.newRequestQueue(ResultsActivity.this);
 
-        ListView urlList = findViewById(R.id.urlList);
+        // initiate views
+        ListView urlList  = findViewById(R.id.urlList);
         TextView textView = findViewById(R.id.resulttext);
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, convertedURl);
+        // get source extra from intent
+        String species = getIntent().getStringExtra("taxa");
 
-        urlList.setAdapter(adapter);
-        urlList.setOnItemClickListener(new OnUrlClicked());
+        requestQueue = Volley.newRequestQueue(ResultsActivity.this);
 
+        String[] ids = getIDsOfSpecies(species);
+
+        // if ids is empty, notify the user and return to previous activity
         if (ids.length == 0) {
             Toast.makeText(ResultsActivity.this, "No data on this species was found",
                     Toast.LENGTH_LONG).show();
             finish();
         }
+        // if ids is not empty, display info on results
+        else {
+            String info = getResources().getString(R.string.url_result, ids.length, species);
+            textView.setText(info);
+        }
 
-        String info = getResources().getString(R.string.url_result, ids.length, source);
-        textView.setText(info);
+        // create arrayList to fill with urls and set adapter
+        convertedURl = new ArrayList<>();
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, convertedURl);
+        urlList.setAdapter(adapter);
+        urlList.setOnItemClickListener(new OnUrlClicked());
 
+        convertIDsToURLs(ids);
+    }
+
+    public String[] getIDsOfSpecies(String species) {
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ResultsActivity.this);
+        databaseAccess.open();
+        String[] ids = databaseAccess.getAllUrls(species);
+        databaseAccess.close();
+        return ids;
+    }
+
+    public void convertIDsToURLs(String[] ids) {
 
         for (int i = 0; i < ids.length; i++) {
             String url = "https://api.globalbioticinteractions.org/findExternalUrlForExternalId/" + ids[i];
@@ -87,8 +105,8 @@ public class ResultsActivity extends AppCompatActivity {
             });
             requestQueue.add(stringRequest);
         }
-
     }
+
 
 
     class OnUrlClicked implements AdapterView.OnItemClickListener {
