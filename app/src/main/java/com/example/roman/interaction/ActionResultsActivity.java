@@ -54,9 +54,11 @@ public class ActionResultsActivity extends AppCompatActivity {
         textView = findViewById(R.id.resultText);
 
 
-        String url = MakeURLFromIntent(getIntent());
+        String url = HandleParametersFromIntent(getIntent());
+        GetInteractionsFromURL(url);
+    }
 
-
+    public void GetInteractionsFromURL(String url) {
         // Instantiate ArrayList for interactions
         interactions = new ArrayList<>();
 
@@ -113,7 +115,7 @@ public class ActionResultsActivity extends AppCompatActivity {
     }
 
 
-    public String MakeURLFromIntent (Intent intent) {
+    public String HandleParametersFromIntent (Intent intent) {
         String interaction = intent.getStringExtra("interaction");
         String target = intent.getStringExtra("target");
         String source = intent.getStringExtra("source");
