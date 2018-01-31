@@ -99,12 +99,15 @@ public class ActionResultsActivity extends AppCompatActivity {
         // TODO: remove log
         Log.d("URL", "HandleParametersFromIntent: " + url);
 
-
-
         return url;
     }
 
+    /**
+     * Uses extras from intent to supply the textview with useful information
+     * @param intent intent from previous activity
+     */
     public void setTextViewWithIntent(Intent intent) {
+        // get extras from intent
         String interaction = intent.getStringExtra("interaction");
         String target = intent.getStringExtra("target");
         String source = intent.getStringExtra("source");
