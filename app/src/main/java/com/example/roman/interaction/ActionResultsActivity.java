@@ -60,7 +60,6 @@ public class ActionResultsActivity extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
-
         String url = HandleParametersFromIntent(getIntent());
         GetInteractionsFromURL(url);
     }
@@ -72,10 +71,9 @@ public class ActionResultsActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        JSONArray array = null;
                         try {
                             // extract array with interactions from the response
-                            array = new JSONObject(response).getJSONArray("data");
+                            JSONArray array = new JSONObject(response).getJSONArray("data");
 
                             if (array.length() == 0) textView.setText("Unfortunately, no results for this search were found.");
 
