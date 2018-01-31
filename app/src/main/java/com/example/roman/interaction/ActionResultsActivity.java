@@ -58,7 +58,7 @@ public class ActionResultsActivity extends AppCompatActivity {
         // initiate arrayList for interactions
         interactions = new ArrayList<>();
 
-        // get a new requestqueue
+        // get a new requestQueue
         requestQueue = Volley.newRequestQueue(this);
 
         // call necessary functions
@@ -82,7 +82,7 @@ public class ActionResultsActivity extends AppCompatActivity {
         // build the url for API-request
         String url = "https://api.globalbioticinteractions.org/interaction?";
 
-        // if extras are not empty, add them to the parameters
+        // build url (if extras are not empty, add them to the parameters)
         if (!target.equals("")) {
             url += "targetTaxon=" + target.replaceAll("\\(.*?\\)","").trim() + "&";
         }
@@ -92,17 +92,13 @@ public class ActionResultsActivity extends AppCompatActivity {
         if (coordinates != null) {
             url += "bbox=" + coordinates + "&";
         }
-
-        // add interactionType to url
         url += "interactionType=" + interaction;
-
-        // replace spaces with "%20"
         url = url.replaceAll(" ", "%20");
 
         // TODO: remove log
         Log.d("URL", "HandleParametersFromIntent: " + url);
 
-        // change empty fields to "anyting" for the sake of user experience
+        // change empty fields to "anything" for the sake of displaying search parameters
         if (source.equals("")) {
             source = "anything";
         }
@@ -110,7 +106,7 @@ public class ActionResultsActivity extends AppCompatActivity {
             target = "anything";
         }
 
-        // use appropriate string resource depending on whether coordinates is or isnt null
+        // use appropriate string resource depending on whether coordinates is or isn't null
         String info;
         if (coordinates == null) {
             info = getResources().getString(R.string.results_info, source, interaction, target);
@@ -125,7 +121,10 @@ public class ActionResultsActivity extends AppCompatActivity {
         return url;
     }
 
-
+    /**
+     * Calls the API for interactions with the given url and subsequently puts them in the listview.
+     * @param url url to be called by API
+     */
     public void GetInteractionsFromURL(String url) {
 
         // Create new requestQueue for getting the interactions.
@@ -137,9 +136,10 @@ public class ActionResultsActivity extends AppCompatActivity {
                             // extract array with interactions from the response
                             JSONArray array = new JSONObject(response).getJSONArray("data");
 
+                            // if array is empty, display a message to the user
                             if (array.length() == 0) infoView.setText(R.string.no_results_info);
 
-                            // for every interaction in array
+                            // loop over interactions in array
                             for (int i = 0; i < array.length() && i < 30; i++) {
                                 // get a single interaction
                                 JSONArray jsonArray = array.getJSONArray(i);
