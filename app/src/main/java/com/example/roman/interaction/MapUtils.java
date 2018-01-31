@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import static java.lang.Math.round;
 
 /**
- * Created by roman on 18/01/2018.
+ * Helper class for getting coordinates from the google map.
  */
 
 public class MapUtils {

@@ -88,7 +88,6 @@ public class ActionResultsActivity extends AppCompatActivity {
 
         // replace spaces with "%20"
         url = url.replaceAll(" ", "%20");
-        Log.d("URL", "onCreate: " + url);
 
         // New requestqueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -158,76 +157,4 @@ public class ActionResultsActivity extends AppCompatActivity {
         }
         return info;
     }
-
-    class ViewHolder {
-        Button mysource;
-        TextView myinteraction;
-        Button mytarget;
-    }
-
-    public class InteractionAdapter extends ArrayAdapter<Interaction> {
-        private int layoutResourceId;
-        public List<Interaction> data;
-
-        public InteractionAdapter(Context context, int resource, List<Interaction> objects) {
-            super(context, resource, objects);
-            layoutResourceId = resource;
-            data = objects;
-        }
-
-
-
-        @Override
-        public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
-            final ViewHolder holder;
-
-            // TODO: comments
-            if (convertView == null) {
-                LayoutInflater inflater = getLayoutInflater();
-                convertView = inflater.inflate(R.layout.interaction_item, null);
-
-                holder = new ViewHolder();
-
-                holder.mysource = (Button) convertView.findViewById(R.id.source);
-                holder.mytarget = (Button) convertView.findViewById(R.id.target);
-                holder.myinteraction = (TextView) convertView.findViewById(R.id.interaction);
-
-                convertView.setTag(holder);
-            }
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            holder.mysource.setText(Html.fromHtml(data.get(position).getSource()));
-            holder.mysource.setOnClickListener(new OnSpeciesClicked());
-            holder.mytarget.setText(Html.fromHtml(data.get(position).getTarget()));
-            holder.mytarget.setOnClickListener(new OnSpeciesClicked());
-            holder.myinteraction.setText(data.get(position).getInteraction());
-            if (position % 2 == 1) {
-                convertView.setBackgroundColor(getResources().getColor(R.color.listview_colors));
-            } else {
-                convertView.setBackgroundColor(getResources().getColor(R.color.listview_colors_even));
-            }
-            return convertView;
-        }
-
-
-
-
-    }
-
-    class OnSpeciesClicked implements AdapterView.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-            Button b = (Button) view;
-            String species = b.getText().toString();
-
-            Intent intent = new Intent(ActionResultsActivity.this, ResultsActivity.class);
-            intent.putExtra("taxa", species);
-            startActivity(intent);
-        }
-    }
-
-
-
 }

@@ -131,7 +131,6 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
             DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SearchMashup.this);
             databaseAccess.open();
             String[] taxa = databaseAccess.getAllTaxa();
-            databaseAccess.close();
             return  taxa;
         }
 
@@ -142,6 +141,8 @@ public class SearchMashup extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         protected void onPostExecute(String[] s) {
             super.onPostExecute(s);
+            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SearchMashup.this);
+            databaseAccess.close();
             // create adapter with all taxa and connect it to the autocomplete texts
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchMashup.this, android.R.layout.simple_list_item_1, s);
             source.setAdapter(adapter);
