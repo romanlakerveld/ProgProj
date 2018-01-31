@@ -62,7 +62,6 @@ public class ActionResultsActivity extends AppCompatActivity {
         // Instantiate ArrayList for interactions
         interactions = new ArrayList<>();
 
-
         // New requestqueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
