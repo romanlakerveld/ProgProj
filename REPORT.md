@@ -6,4 +6,5 @@ Studying interactions between species is an important part of Biology.
  Shown below is the way interactions are displayed:
 <img height="480" width="270" src="https://github.com/romanlakerveld/ProgProj/blob/master/doc/screenshot.png"/>
 
-
+## Technical design
+<img src="https://github.com/romanlakerveld/ProgProj/blob/master/doc/reportsketchfinal.png"/>
