@@ -68,17 +68,29 @@ public class ResultsActivity extends AppCompatActivity {
         convertIDsToURLs(ids);
     }
 
+    /**
+     * Converts a species String to relevant IDs
+     * @param species species to be converted
+     * @return array of IDs
+     */
     public String[] getIDsOfSpecies(String species) {
+        // get ids from database
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ResultsActivity.this);
         databaseAccess.open();
         String[] ids = databaseAccess.getAllUrls(species);
         databaseAccess.close();
+
         return ids;
     }
 
+    /**
+     * Converts IDs to URLs and updates the listview when a new URL has been added
+     * @param ids ids to be converted
+     */
     public void convertIDsToURLs(String[] ids) {
-
+        // loop over ids
         for (int i = 0; i < ids.length; i++) {
+            // string for api request
             String url = "https://api.globalbioticinteractions.org/findExternalUrlForExternalId/" + ids[i];
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
@@ -90,10 +102,12 @@ public class ResultsActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     try {
+                        // add url to data
                         convertedURl.add(jsonObject.getString("url"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    // notify that a new url has been added
                     adapter.notifyDataSetChanged();
 
                 }
@@ -108,14 +122,14 @@ public class ResultsActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Handles URL clicks
+     */
     class OnUrlClicked implements AdapterView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            String url = "https://api.globalbioticinteractions.org/findExternalUrlForExternalId/" + adapterView.getItemAtPosition(i).toString();
-
-
+            // launch browser with the URL
             Uri uriUrl = Uri.parse(adapterView.getItemAtPosition(i).toString());
             Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
             startActivity(launchBrowser);
