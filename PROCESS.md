@@ -43,3 +43,9 @@ Started overhauling the navigation system to be more user friendly as well as ma
 
 # Week 4 - Day 2
 Same as yesterday, tomorrow i will dedicate to cleaning up the code.
+
+# Week 4 - Day 3
+Today i focused on cleaning up most of the code and also keep track of my Better Code Hub grade.
+
+# Week 4 - Day 4
+Today i wrote the REPORT.md file and made an updated version of my wireflow.
