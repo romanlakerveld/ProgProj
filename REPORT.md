@@ -52,7 +52,8 @@ The goal of this app is to allow data on these interactions to be better accessi
 My design has certainly changed a lot from the initial sketch. At first i planned on having an activity for every type of search possible:
 searching with only source and target, searching with only an area and searching with both. Once most of the hard coding parts were over i wasn't satisfied with the navigation so i decided to
 put all search possibilities in a single activity, fittingly named SearchMashup, in which the user can hide or show the map. This influences the search parameters.
-Also i put searching for a single species directly in the main activity, instead of having to navigate to it first, this seemed more fitting to me.
+Also i put searching for a single species directly in the main activity, instead of having to navigate to it first, this seemed more fitting to me. I was also planning on
+displaying the interaction types as clipart images that would show the interaction, but i did not have enough time to spare to also add that feature.
 
 I think the design changes were for the better, since the searching is much more compact now. I think that, when given more time, i would have been able to come up with a more elegant solution
 but i am happy with the current result.
