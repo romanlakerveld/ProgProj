@@ -53,6 +53,7 @@ My design has certainly changed a lot from the initial sketch. At first i planne
 searching with only source and target, searching with only an area and searching with both. Once most of the hard coding parts were over i wasn't satisfied with the navigation so i decided to
 put all search possibilities in a single activity, fittingly named SearchMashup, in which the user can hide or show the map. This influences the search parameters.
 Also i put searching for a single species directly in the main activity, instead of having to navigate to it first, this seemed more fitting to me.
+
 I think the design changes were for the better, since the searching is much more compact now. I think that, when given more time, i would have been able to come up with a more elegant solution
 but i am happy with the current result.
 ### Struggling with the API
