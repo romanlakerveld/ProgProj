@@ -56,6 +56,6 @@ Also i put searching for a single species directly in the main activity, instead
 ### Struggling with the API
 Getting URLs and common names from the API was certainly harder than i first envisioned. Getting the interactions was pretty straightforward, but to get the common names
 and the URLs i had to download some .tsv files from the API github page which were too large to open with excel. So to transform the data
- of the files i used Unix to get the needed columns and filter some values and from some i wrote a simple Python script to transform the data.
+ of the files i used Unix to get the needed columns and filter some values and i wrote a simple Python script to transform the data to what i needed.
 Lastly i used an SQL GUI to put the transformed data in an SQL databasefile and added that to the asset folder of my app.
 
