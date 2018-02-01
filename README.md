@@ -32,5 +32,5 @@ I have not found any existing apps with the same purpose as this idea. Although 
 
 ### Hardest part
 I expected the hardest part to be setting up the communication with the API, since the returned JSON isn't always as
- straightforward as one would hope. Also implementing Google Maps into the app would seems like a hard obstacle, but not that hard.
+ straightforward as one would hope. Also implementing Google Maps into the app would seems like a hard obstacle, but not that hard.     
  Eventually these steps were a lot easier to overcome than i had thought and the hardest part was actually getting all the SQL databases working (autocomplete, converting latin to common and getting URLs).
