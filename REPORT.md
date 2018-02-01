@@ -25,7 +25,7 @@ Studying interactions between species is an important part of Biology.
     - Calls HandleParametersFromIntent to get the search parameters from the intent and build an url with them.
     - Secondly, calls GetInteractionsFromURL to call the API with the previously stated URL, then puts those interactions in a ListView with the InteractionAdapter.
 - ResultsActivity: this activity takes a single species and requests the SQL database for relevant URLs.
-    - First calls getIDsOfSpecies to get IDs of the specified species (which looks like this: EOL:2847123)
+    - First calls getIDsOfSpecies to get IDs of the specified species.
     - Secondly calls convertIDsToURLs, which loops over all the recieved IDs and converts them to usable URLS.
 ### Helper classes
 - InterActionAdapter: this adapter is used by ActionResultsActivity to display interactions in a ListView.
@@ -33,7 +33,7 @@ Studying interactions between species is an important part of Biology.
     - Uses the ViewHolder class to manage recycling the views.
 - ViewHolder: holds the view for the adapter
 - OnSpeciesClicked: listener that's used by the InteractionAdapter
-    - Has OnClick method which get the text of the clicked button (the species) and hands it to the ResultsActivity
+    - Has OnClick method which gets the text of the clicked button (the species) and hands it to the ResultsActivity
 - MapUtils: class for handling map coordinates
     - getMapCoords takes a google map object and gets the coordinates of the current projection to hand to the API.
     - round method is used by getMapCoords to round the coordinates down to 2 decimal positions.
@@ -46,4 +46,16 @@ Studying interactions between species is an important part of Biology.
     - source of interaction
     - interaction type
     - target of interaction.
+
+## Development challenges
+### Changes in design
+My design has certainly changed a lot from the initial sketch. At first i planned on having an activity for every type of search possible:
+searching with only source and target, searching with only an area and searching with both. Once most of the hard coding parts were over i wasn't satisfied with the navigation so i decided to
+put all search possibilities in a single activity, fittingly named SearchMashup, in which the user can hide or show the map. This influences the search parameters.
+Also i put searching for a single species directly in the main activity, instead of having to navigate to it first, this seemed more fitting to me.
+### Struggling with the API
+Getting URLs and common names from the API was certainly harder than i first envisioned. Getting the interactions was pretty straightforward, but to get the common names
+and the URLs i had to download some .tsv files from the API github page which were too large to open with excel. So to transform the data
+ of the files i used Unix to get the needed columns and filter some values and from some i wrote a simple Python script to transform the data.
+Lastly i used an SQL GUI to put the transformed data in an SQL databasefile and added that to the asset folder of my app.
 
