@@ -1,4 +1,5 @@
 # Programmingproject - Project proposal
+[![BCH compliance](https://bettercodehub.com/edge/badge/romanlakerveld/ProgProj?branch=master)](https://bettercodehub.com/)
 
 ### Problem statement
 Studying interactions between species is an important part of Biology. These interactions can range from eating each other, helping each other (for example by pollination) or infecting each other.
