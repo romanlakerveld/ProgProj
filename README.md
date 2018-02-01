@@ -31,4 +31,6 @@ The MVP would contain all of the above mentioned features, but it would be bette
 I have not found any existing apps with the same purpose as this idea. Although the web application https://www.globalbioticinteractions.org/ uses the same API and does what i want to do in my app.
 
 ### Hardest part
-The hardest part will probably be setting up the communication with the API, since the returned JSON isnt always as straightforward as one would hope. Also implementing Google Maps into the app would seems like a hard obstacle, but not that hard.
+I expected the hardest part to be setting up the communication with the API, since the returned JSON isn't always as
+ straightforward as one would hope. Also implementing Google Maps into the app would seems like a hard obstacle, but not that hard.
+ Eventually these steps were a lot easier to overcome than i had thought and the hardest part was actually getting all the SQL databases working (autocomplete, converting latin to common and getting URLs).
