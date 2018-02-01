@@ -22,9 +22,10 @@ The MVP would contain all of the above mentioned features, but it would be bette
 - Global Biotic Interactions API https://github.com/jhpoelen/eol-globi-data/wiki/API - This API merges a collection of datasets containing interactions of species (for an example: check https://inaturalist.org/observations/3848742, which shows a sea otter eating a crab as well as the specific location). The API allows search for specific species as well as on a specific type of of interaction. The API also allows rectangular search, which returns only interactions within that rectangle.
 
 ### External components:
-- Horizontal Picker widget by Blazsolar: https://github.com/blazsolar/HorizontalPicker
+- Horizontal Picker widget by Blazsolar: https://github.com/blazsolar/HorizontalPicker. HorizontalPicker is licensed under the Apache License 2.0
 - Google maps
 - SQLiteOpenHelper
+- SQLiteAssetHelper: i got most of the code from a tutorial on javahelps.com: http://www.javahelps.com/2015/04/import-and-use-external-database-in.html
 
 ### Existing applications:
 I have not found any existing apps with the same purpose as this idea. Although the web application https://www.globalbioticinteractions.org/ uses the same API and does what i want to do in my app.
