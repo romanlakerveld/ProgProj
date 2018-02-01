@@ -15,11 +15,12 @@ Studying interactions between species is an important part of Biology.
  a single species.
     - Calls getAllTaxa from the DatabaseAccess class to get all taxa from the SQL table to use
     for the autocompleteEditText
-- SearchMashup: this activity contains the parameters part of the search fucntionality.
+- SearchMashup: this activity contains the parameters part of the search functionality.
     - Similarly to MainActivity, this activity calls getAllTaxa to fill the AutocompleteTexts.
     - Also uses a StringRequest to get all supported interaction types from the GloBI API.
     - Uses Google Maps plugin to allow the user to specify an area to search in, the map of which
-    can be hidden by clicking the "Allow area search" button.
+    can be hidden by clicking the "Allow area search" checkbox.
+    - Calls getMapCoords from MapUtils class to get coordinates from the map.
 - ActionResultsActivity: this activity displays the found interactions when given certain parameters.
     - Calls HandleParametersFromIntent to get the search parameters from the intent and build an url with them.
     - Secondly, calls GetInteractionsFromURL to call the API with the previously stated URL, then puts those interactions in a ListView with the InteractionAdapter.
@@ -33,4 +34,16 @@ Studying interactions between species is an important part of Biology.
 - ViewHolder: holds the view for the adapter
 - OnSpeciesClicked: listener that's used by the InteractionAdapter
     - Has OnClick method which get the text of the clicked button (the species) and hands it to the ResultsActivity
+- MapUtils: class for handling map coordinates
+    - getMapCoords takes a google map object and gets the coordinates of the current projection to hand to the API.
+    - round method is used by getMapCoords to round the coordinates down to 2 decimal positions.
+- DatabaseAccess: handles the retrieval of data from the SQL database.
+    - getCommon method takes a latin String and converts it to a common name if possible.
+    - getAllTaxa method selects all values from the autocomplete table to be used for Autocomplete feature
+    - getAllUrls method takes a latin String and returns all relevant URLs found in the database.
+- DatabaseOpenHelper: handles assets needed for the database
+- Interaction: class for representing interactions. Contains getters and setters for:
+    - source of interaction
+    - interaction type
+    - target of interaction.
 
