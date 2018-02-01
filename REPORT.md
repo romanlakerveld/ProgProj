@@ -62,3 +62,6 @@ and the URLs i had to download some .tsv files from the API github page which we
  of the files i used Unix to get the needed columns and filter some values and i wrote a simple Python script to transform the data to what i needed.
 Lastly i used an SQL GUI to put the transformed data in an SQL databasefile and added that to the asset folder of my app.
 
+I was able to get from the API what i needed to get the app to work, but the API contains some more features which coud have been added if i had more time. But adding more features might also make the
+app too complex, so i don't think i would have added more features if i could.
+
